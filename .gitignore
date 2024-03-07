@@ -1,0 +1,9 @@
+.idea
+.cache
+*.log
+.venv
+*.pyc
+*.DS_Store
+__pycache__
+*.pytest_cache
+.vscode

@@ -1,0 +1,72 @@
+version: "3"
+
+services:
+  brisk-mysql:
+    image: mysql:8.0
+    container_name: brisk_mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=szr123456
+      - MYSQL_DATABASE=szr
+      - MYSQL_ROOT_HOST=%
+      - TZ=Asia/Shanghai
+    volumes:
+      - /root/mysql/data:/var/lib/mysql
+      - /root/mysql/log:/var/log/mysql
+      - /root/mysql/sql/*.sql:/docker-entrypoint-initdb.d/
+    ports:
+      - 3306:3306
+    networks:
+      brisk-network:
+        ipv4_address: 192.168.30.11
+
+  brisk-server:
+    build:
+      context: ./server/
+      dockerfile: dockerfile
+      args:
+        buildno: 1
+    container_name: brisk_server
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - /root/server/logs:/brisk/logs
+    ports:
+      - "7777:7777"
+    networks:
+      brisk-network:
+        ipv4_address: 192.168.30.12
+    depends_on:
+      - brisk-mysql
+
+  brisk-nginx:
+    image: nginx
+    container_name: brisk_nginx
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - /root/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - /root/nginx/html:/usr/share/nginx/html
+      - /root/nginx/log:/var/log/nginx
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - brisk-network
+    depends_on:
+      - brisk-mysql
+      - brisk-server
+
+
+
+networks:
+  brisk-network:
+    # external: true
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.30.0/24
+          gateway: 192.168.30.1
