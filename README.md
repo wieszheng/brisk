@@ -35,7 +35,7 @@ docker-compose -f docker-compose.yaml up
 1. 拉取代码
 
 ```bash
-$ git clone https://gitee.com/shiweiya/brisk.git
+$ git clone https://gitee.com/wieszheng/brisk.git
 $ cd brisk
 ```
 
