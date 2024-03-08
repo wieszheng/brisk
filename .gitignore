@@ -1,10 +1,11 @@
 .idea
 .cache
-*.logs
+*.log
 .venv
 *.pyc
 *.DS_Store
 __pycache__
 *.pytest_cache
 .vscode
-conf/.env.test
+.conf/.env.test
+.logs/*

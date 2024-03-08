@@ -109,29 +109,14 @@ def make_filter(name):
 
 
 def init_logging():
-    loggers = (
-        logging.getLogger(name)
-        for name in logging.root.manager.loggerDict
-        if name.startswith("uvicorn.")
-    )
-    for uvicorn_logger in loggers:
-        uvicorn_logger.handlers = []
-
     # 这里的操作是为了改变uvicorn默认的logger，使之采用loguru的logger
     # change handler for default uvicorn logger
-    intercept_handler = InterceptHandler()
-    logging.getLogger("uvicorn").handlers = [intercept_handler]
+    logging.getLogger("uvicorn").handlers = [InterceptHandler()]
+    logging.getLogger("uvicorn.access").handlers = [InterceptHandler()]
     # set logs output, level and format
     # logger.add(sys.stdout, level=logging.DEBUG, format=format_record, filter=make_filter('stdout'))
-
     info = os.path.join(Settings.LOG_DIR, f"{Settings.LOG_INFO}.log")
     error = os.path.join(Settings.LOG_DIR, f"{Settings.LOG_ERROR}.log")
-
-    logger.add(info, enqueue=True, rotation="20 MB", level="DEBUG",
-               filter=make_filter(Settings.LOG_INFO))
-    logger.add(error, enqueue=True, rotation="10 MB", level="WARNING",
-               filter=make_filter(Settings.LOG_ERROR))
-
     # 配置loguru的日志句柄，sink代表输出的目标
     logger.configure(
         handlers=[
@@ -142,4 +127,10 @@ def init_logging():
              "filter": make_filter(Settings.LOG_ERROR)}
         ]
     )
+    logger.add(info, enqueue=True, rotation="20 MB", level="DEBUG", encoding='utf-8',
+               filter=make_filter(Settings.LOG_INFO))
+    logger.add(error, enqueue=True, rotation="10 MB", level="WARNING", encoding='utf-8',
+               filter=make_filter(Settings.LOG_ERROR))
+    logger.debug('日志系统已加载')
+
     return logger
