@@ -49,7 +49,7 @@ $ pip install -r requirements.txt
 3. 安装并启动mysql
 
 
-4. 修改conf/dev.env
+4. 修改conf/.env
 
 
 5. 启动服务
