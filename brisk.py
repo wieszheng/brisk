@@ -12,5 +12,5 @@ from config import Settings
 
 if __name__ == "__main__":
     uvicorn.run("main:brisk", host=Settings.APP_HOST,
-                port=Settings.APP_PORT, reload=False, forwarded_allow_ips="*")
+                port=Settings.APP_PORT, reload=True, forwarded_allow_ips="*", log_level="info")
 

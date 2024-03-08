@@ -20,7 +20,6 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 
 class AppConfigSettings(BaseSettings):
     LOG_DIR: ClassVar = os.path.join(ROOT, 'logs')
-    # LOG_NAME: ClassVar = os.path.join(LOG_DIR, 'log.log')
 
     # 服务配置信息
     APP_NAME: str
