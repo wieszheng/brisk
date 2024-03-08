@@ -7,6 +7,7 @@
 @Author   : wiesZheng
 @Function :
 """
+import argparse
 import os
 from functools import lru_cache
 from typing import ClassVar
@@ -26,6 +27,7 @@ class AppConfigSettings(BaseSettings):
     APP_VERSION: str
     APP_HOST: str
     APP_PORT: int
+    APP_ENV: str
 
     # 数据库配置
     MYSQL_HOST: str
@@ -36,6 +38,11 @@ class AppConfigSettings(BaseSettings):
 
     # SalAlchemy配置
     ASYNC_DATABASE_URI: str
+
+    # 日志配置
+    LOG_ERROR: str
+    LOG_INFO: str
+    DEBUG: bool
 
     # 用户权限
     MEMBER: int
@@ -51,8 +58,7 @@ class AppConfigSettings(BaseSettings):
     # 密码加密配置
     BCRYPT_ROUNDS: int  # bcrypt迭代次数,越大耗时越长(好在python的bcrypt是C库)
 
-    # 其他
-    BANNER: str = """
+BANNER = """
                                   \`-,                             
                                   |   `\                           
                                   |     \                          
@@ -74,16 +80,35 @@ class AppConfigSettings(BaseSettings):
         """
 
 
+def parseCliArgument():
+    """ 解析命令行参数 """
+    import sys
+    if "uvicorn" in sys.argv[0]:
+        # 使用uvicorn启动时，命令行参数只能按照uvicorn的文档来，不能传自定义参数，否则报错
+        return
+    # 使用 argparse 定义命令行参数
+    parser = argparse.ArgumentParser(description="命令行参数")
+    parser.add_argument("--env", type=str, default="", help="运行环境")
+    # 解析命令行参数
+    args = parser.parse_args()
+    # 设置环境变量
+    # uvicorn模式启动，读取的.env*里面的APP_ENV
+    os.environ["APP_ENV"] = args.env
+
+
 @lru_cache
 def getAppConfig():
     """ 获取项目配置 """
+    parseCliArgument()
     runenv = os.environ.get("APP_ENV", "")
-    envfile = os.path.join(ROOT, "conf", ".env")
+    envfile = ".env"
     if runenv != "":
         # 当是其他环境时，如测试环境: 加载 .env.test 正式环境: 加载.env.prod
         envfile = f".env.{runenv}"
-    load_dotenv(envfile)
+    load_dotenv(os.path.join(ROOT, "conf", envfile))
     return AppConfigSettings()
 
 
 Settings = getAppConfig()
+
+

@@ -54,8 +54,6 @@ class UserCRUD:
             raise Exception("您的账号已被封禁, 请联系管理员")
 
         user.last_login_at = datetime.now()
-        async_session.add(user)
-        await async_session.commit()
         await async_session.refresh(user)
         return user
 
