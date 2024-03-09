@@ -8477,3 +8477,40 @@ Exception: 登录状态已过期, 请重新登录
 2024-03-09 13:48:24.696 | INFO     | uvicorn.lifespan.on:shutdown:76 - Application shutdown complete.
 2024-03-09 13:48:24.696 | INFO     | uvicorn.server:serve:87 - Finished server process [7332]
 2024-03-09 13:48:24.697 | INFO     | uvicorn.server:serve:87 - Finished server process [7332]
+2024-03-09 13:48:30.083 | DEBUG    | app:init_logging:130 - 日志系统已加载
+2024-03-09 13:48:30.084 | SUCCESS  | main:<module>:17 - brisk is running at Brisk
+2024-03-09 13:48:30.085 | SUCCESS  | main:<module>:18 - 
+                                  \`-,                             
+                                  |   `\                           
+                                  |     \                          
+                               __/.- - -.\,__                      
+                          _.-'`              `'"'--..,__           
+                      .-'`                              `'--.,_    
+                   .'`   _                         _ ___       `)  
+                 .'   .'` `'-.                    (_`  _`)  _.-'   
+               .'    '--.     '.                 .-.`"`@ .-'""-,   
+      .------~'     ,.---'      '-._      _.'   /   `'--':::.-'   
+    /`        '   /`  _,..-----.,__ `''''`/    ;__,..--''--'`      
+    `'--.,__ '    |-'`             `'---'|     |                   
+            `\    \                       \   /                    
+             |     |                       '-'                     
+              \    |                                               
+               `\  |                                               
+                 \/  
+
+        
+2024-03-09 13:48:30.085 | INFO     | uvicorn.server:serve:77 - Started server process [14272]
+2024-03-09 13:48:30.087 | INFO     | uvicorn.server:serve:77 - Started server process [14272]
+2024-03-09 13:48:30.087 | INFO     | uvicorn.lifespan.on:startup:46 - Waiting for application startup.
+2024-03-09 13:48:30.090 | INFO     | uvicorn.lifespan.on:startup:46 - Waiting for application startup.
+2024-03-09 13:48:30.090 | SUCCESS  | main:init_database:26 - database and tables created success.        ✔
+2024-03-09 13:48:30.092 | INFO     | uvicorn.lifespan.on:startup:60 - Application startup complete.
+2024-03-09 13:48:30.093 | INFO     | uvicorn.lifespan.on:startup:60 - Application startup complete.
+2024-03-09 14:11:48.771 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 14:11:48.772 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 14:41:47.788 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 14:41:47.790 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 15:11:46.835 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 15:11:46.837 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 15:41:45.847 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 15:41:45.848 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.

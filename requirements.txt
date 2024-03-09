@@ -5,6 +5,7 @@ anyio==4.3.0
 certifi==2024.2.2
 click==8.1.7
 colorama==0.4.6
+commitizen==3.18.0
 dnspython==2.6.1
 email_validator==2.1.1
 exceptiongroup==1.2.0
