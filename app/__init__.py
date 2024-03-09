@@ -22,7 +22,6 @@ from app.exceptions.register import register_global_exceptions_handler
 from config import Settings, ROOT
 from loguru import logger
 
-
 brisk = FastAPI(
     title=Settings.APP_NAME,
     version=Settings.APP_VERSION,
@@ -54,7 +53,6 @@ brisk.add_middleware(
     allow_headers=["*"],  # 允许的 HTTP 头信息，可以是字符串、字符串列表，或通配符 "*"
     expose_headers=["*"],  # 允许前端访问的额外响应头，可以是字符串、字符串列表
 )
-
 
 # 配置日志格式
 INFO_FORMAT = "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> " \
@@ -89,7 +87,6 @@ class InterceptHandler(logging.Handler):
 
 
 def format_record(record: dict):
-
     format_string = LOGURU_FORMAT
     if record["extra"].get("payload") is not None:
         record["extra"]["payload"] = pformat(
@@ -109,28 +106,27 @@ def make_filter(name):
 
 
 def init_logging():
-    # 这里的操作是为了改变uvicorn默认的logger，使之采用loguru的logger
-    # change handler for default uvicorn logger
-    logging.getLogger("uvicorn").handlers = [InterceptHandler()]
-    logging.getLogger("uvicorn.access").handlers = [InterceptHandler()]
-    # set logs output, level and format
-    # logger.add(sys.stdout, level=logging.DEBUG, format=format_record, filter=make_filter('stdout'))
+    # loggers = (
+    #     logging.getLogger(name)
+    #     for name in logging.root.manager.loggerDict
+    #     if name.startswith("uvicorn")
+    # )
+    logger_names = ("uvicorn.access", "uvicorn.error", "uvicorn")
+    for name in logger_names:
+        logging.getLogger(name).handlers = [InterceptHandler()]
+
     info = os.path.join(Settings.LOG_DIR, f"{Settings.LOG_INFO}.log")
     error = os.path.join(Settings.LOG_DIR, f"{Settings.LOG_ERROR}.log")
     # 配置loguru的日志句柄，sink代表输出的目标
     logger.configure(
         handlers=[
             {"sink": sys.stdout, "level": logging.DEBUG, "format": format_record},
-            {"sink": info, "level": logging.INFO, "format": INFO_FORMAT,
-             "filter": make_filter(Settings.LOG_INFO)},
-            {"sink": error, "level": logging.WARNING, "format": ERROR_FORMAT,
-             "filter": make_filter(Settings.LOG_ERROR)}
+            # {"sink": info, "level": logging.DEBUG, "rotation": "500 MB", "encoding": 'utf-8'},
+            # {"sink": error, "level": logging.WARNING, "serialize": True, "rotation": "500 MB", "encoding": 'utf-8'}
         ]
     )
-    logger.add(info, enqueue=True, rotation="20 MB", level="DEBUG", encoding='utf-8',
-               filter=make_filter(Settings.LOG_INFO))
-    logger.add(error, enqueue=True, rotation="10 MB", level="WARNING", encoding='utf-8',
-               filter=make_filter(Settings.LOG_ERROR))
+    logger.add(info, enqueue=True, rotation="20 MB", level="DEBUG", encoding='utf-8')
+    logger.add(error, enqueue=True, rotation="10 MB", level="WARNING", encoding='utf-8')
     logger.debug('日志系统已加载')
 
     return logger

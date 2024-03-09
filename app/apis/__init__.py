@@ -56,17 +56,13 @@ class Permission:
 
             if user_info.get("role", 0) < self.role:
                 raise PermissionException(status.HTTP_403_FORBIDDEN, FORBIDDEN)
-            user = await UserCRUD.query_user(user_info['id'])
+            user = await UserCRUD.query_user(user_info.get("id"))
             if user is None:
                 raise Exception("用户不存在")
             user_info = model_to_dict(user, "password")
             return user_info
-        except jwt.ExpiredSignatureError:
-            raise AuthException(status.HTTP_401_UNAUTHORIZED, "输入Token已过期, 请重新登录")
-        except jwt.InvalidTokenError:
-            raise AuthException(status.HTTP_401_UNAUTHORIZED, "输入Token不合法, 请重新登录")
-  
-
+        except Exception as e:
+            raise AuthException(status.HTTP_403_FORBIDDEN, str(e))
 
 
 # 节点权限鉴权中间件(装饰器)

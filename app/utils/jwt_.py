@@ -13,6 +13,7 @@ from uuid import uuid1
 import jwt
 from typing import Any, Dict, Union
 import pytz
+from jwt import ExpiredSignatureError, InvalidTokenError
 from pydantic import BaseModel
 
 from config import Settings
@@ -43,15 +44,27 @@ def jwt_encode(payload: Dict[Any, Union[str, Any]]):
         exp=current_time + timedelta(minutes=Settings.JWT_EXPIRED),
         data=payload
     )
+    new_data = dict({
+        "jti": current_time.strftime("%Y%m%d%H%M%f"),
+        "iss": Settings.JWT_ISS,
+        "iat": current_time,
+        "exp": current_time + timedelta(minutes=Settings.JWT_EXPIRED)},
+        **payload)
     # 生成并返回jwt
-    return jwt.encode(jwt_body.model_dump(),
+    return jwt.encode(new_data,
                       key=Settings.JWT_SECRET_KEY,
                       algorithm=Settings.JWT_ALGORITHM)
 
 
 def jwt_decode(token: str):
-    decoded_payload = jwt.decode(
-        token,
-        key=Settings.JWT_SECRET_KEY,
-        algorithms=[Settings.JWT_ALGORITHM])
-    return decoded_payload
+    try:
+        return jwt.decode(
+            token,
+            key=Settings.JWT_SECRET_KEY,
+            algorithms=[Settings.JWT_ALGORITHM])
+    except ExpiredSignatureError:
+        raise Exception("登录状态已过期, 请重新登录")
+    except InvalidTokenError:
+        raise Exception("Token不合法, 请重新登录")
+    except Exception:
+        raise Exception("登录状态校验失败, 请重新登录")

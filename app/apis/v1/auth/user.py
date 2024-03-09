@@ -32,20 +32,6 @@ class APIResponseModel(BaseModel, Generic[T]):
     data: T = None
 
 
-@router.post("/", response_model=APIResponseModel[User], summary="新增用户")
-async def register(payload: UserPayload, db: AsyncSession = Depends(async_get_session)):
-    try:
-        user = await UserCRUD.create_user(payload, db)
-        return {"msg": "OK", "data": user}
-    except Exception as e:
-        return {"msg": str(e)}
-
-
-@router.get("/me", response_model=APIResponseModel[User], summary="获取当前登录用户信息")
-async def register(payload: UserPayload, db: AsyncSession = Depends(async_get_session)):
-    raise "Register"
-
-
 @router.post("/login", summary="登录")
 async def login(payload: UserBody, db: AsyncSession = Depends(async_get_session)):
     try:
@@ -55,6 +41,20 @@ async def login(payload: UserBody, db: AsyncSession = Depends(async_get_session)
         return {"msg": "OK", "data": user, "token": token}
     except Exception as e:
         return {"msg": str(e)}
+
+
+@router.post("/", response_model=APIResponseModel[User], summary="新增用户")
+async def register(payload: UserPayload, db: AsyncSession = Depends(async_get_session)):
+    try:
+        user = await UserCRUD.create_user(payload, db)
+        return {"msg": "OK", "data": user}
+    except Exception as e:
+        return {"msg": str(e)}
+
+
+@router.get("/me", summary="获取当前登录用户信息")
+async def register(user_info=Depends(Permission(Settings.MEMBER))):
+    return {"msg": user_info}
 
 
 @router.get("/page", summary="用户分页列表")
