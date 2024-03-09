@@ -66,10 +66,24 @@ class BaseCrud:
         await db.commit()
         return db_object
 
-    async def get(self,
-                  db: AsyncSession,
-                  schema_to_select: Optional[type(BaseModel)] = None,
-                  return_as_model: bool = False,
-                  **kwargs: Any
-                  ) -> Optional[Union[dict, BaseModel]]:
-        pass
+    # async def get(self,
+    #               db: AsyncSession,
+    #               schema_to_select: Optional[type(BaseModel)] = None,
+    #               return_as_model: bool = False,
+    #               **kwargs: Any
+    #               ) -> Optional[Union[dict, BaseModel]]:
+    #
+    #     column_list = list(self.model.__table__.columns)
+    #     if schema_to_select is not None:
+    #         if isinstance(schema_to_select, list):
+    #             schema_fields = schema_to_select
+    #         else:
+    #             schema_fields = schema_to_select.model_fields.keys()
+    #
+    #         column_list = []
+    #         for column_name in schema_fields:
+    #             if hasattr(self.model, column_name):
+    #                 column_list.append(getattr(self.model, column_name))
+    #
+    #     print(column_list)
+    #     pass

@@ -9,12 +9,12 @@
 """
 from datetime import datetime
 
-from sqlalchemy import or_, select, func, and_
+from sqlalchemy import or_, select, func, and_, inspect, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import async_session
 from app.models.user import User
-from app.schemas.user import UserPayload, UserBody
+from app.schemas.user import UserPayload, UserBody, UserUpdateForm
 from app.utils.password import hash_psw, verify_psw
 from config import Settings
 
@@ -62,3 +62,42 @@ class UserCRUD:
         async with async_session() as session:
             query = await session.execute(select(User).where(and_(User.id == user_id)))
             return query.scalars().first()
+
+    @staticmethod
+    async def list_users(async_session: AsyncSession):
+        query = await async_session.execute(select(User))
+        return query.scalars().all()
+
+    @staticmethod
+    async def page_list_users(async_session: AsyncSession,
+                              pageNum: int,
+                              pageSize: int,
+                              keywords: str):
+        if pageNum == 0 or pageSize == 0:
+            raise ValueError("输入数值必须大于0")
+
+        search = [User.deleted_at == 0]
+        if keywords:
+            search.append(User.name.like("%{}%".format(keywords)))
+        query = await async_session.execute(select(User).where(*search))
+        data = await async_session.execute(select(User).where(*search).offset((pageNum - 1) * pageSize).limit(pageSize))
+
+        return data.scalars().all(), len(query.scalars().all())
+
+    @staticmethod
+    async def update_user(update_data: UserUpdateForm, user_id: int, async_session: AsyncSession):
+        query = await async_session.execute(select(User).where(and_(User.id == update_data.id)))
+        user = query.scalars().first()
+        if not user:
+            raise Exception("该用户不存在, 请检查")
+        if isinstance(update_data, dict):
+            update_data = update_data
+        else:
+            update_data = update_data.model_dump(exclude_unset=True)
+
+        update_data["updated_at"] = datetime.now()
+        update_data["update_user"] = user_id
+        stmt = update(User).where(and_(User.id == update_data.get("id"))).values(update_data)
+
+        await async_session.execute(stmt)
+        await async_session.commit()

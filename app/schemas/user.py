@@ -28,12 +28,21 @@ class User(BaseModel):
     id: str
     name: str
     username: str
+    phone: str
     role: int
     email: EmailStr
-    created_at: datetime
-    updated_at: datetime
 
 
 class UserList(BaseModel):
     total: int
     data: List[User]
+
+
+class UserUpdateForm(BaseModel):
+    id: str
+    name: str = None
+    username: str = None
+    phone: str = None
+    role: int = None
+    email: EmailStr = None
+    is_valid: bool = None

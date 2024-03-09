@@ -25,7 +25,7 @@ class User(Base):
     created_at = Column(DateTime, nullable=False, default=func.now())
     updated_at = Column(DateTime, nullable=False, default=func.now(), onupdate=func.now())
     deleted_at = Column(BIGINT, nullable=False, default=0)
-    update_user = Column(INT, nullable=True)  # 修改人
+    update_user = Column(String(36), nullable=True)  # 修改人
     last_login_at = Column(DateTime)
     avatar = Column(String(128), nullable=True, default="http://154.8.177.173:9002/will/pic5.png")
     # 管理员可以禁用某个用户

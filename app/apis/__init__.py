@@ -17,6 +17,7 @@ from starlette import status
 from app.crud.auth.user import UserCRUD
 from app.exceptions.request import PermissionException, AuthException
 from app.models import async_session
+from app.utils.responses import model_to_dict
 from app.utils.jwt_ import jwt_decode
 from config import Settings
 
@@ -26,22 +27,6 @@ FORBIDDEN = "对不起, 你没有足够的权限"
 async def async_get_session() -> AsyncSession:
     async with async_session() as session:
         yield session
-
-
-def model_to_dict(obj, *ignore: str):
-    if getattr(obj, '__table__', None) is None:
-        return obj
-    data = dict()
-    for c in obj.__table__.columns:
-        if c.name in ignore:
-            # 如果字段忽略, 则不进行转换
-            continue
-        val = getattr(obj, c.name)
-        if isinstance(val, datetime):
-            data[c.name] = val.strftime("%Y-%m-%d %H:%M:%S")
-        else:
-            data[c.name] = val
-    return data
 
 
 class Permission:

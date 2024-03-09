@@ -2,15 +2,16 @@
 
 """
 @Version  : Python3.8
-@FileName : responses_.py
+@FileName : responses.py
 @Time     : 2024/3/3 22:37
 @Author   : wiesZheng
 @Function :
 """
 import datetime
+from datetime import datetime as datetime_type
 import decimal
 import json
-import time
+
 import typing
 from typing import Any, Dict, Optional
 from fastapi.responses import JSONResponse
@@ -95,11 +96,11 @@ class ApiResponse(JSONResponse):
 
 class Success(JSONResponse):
     def __init__(
-        self,
-        code: int = 200,
-        msg: Optional[str] = "OK",
-        data: Optional[Any] = None,
-        **kwargs,
+            self,
+            code: int = 200,
+            msg: Optional[str] = "OK",
+            data: Optional[Any] = None,
+            **kwargs,
     ):
         content = {"code": code, "msg": msg, "data": data}
         content.update(kwargs)
@@ -108,11 +109,11 @@ class Success(JSONResponse):
 
 class Fail(JSONResponse):
     def __init__(
-        self,
-        code: int = 400,
-        msg: Optional[str] = None,
-        data: Optional[Any] = None,
-        **kwargs,
+            self,
+            code: int = 400,
+            msg: Optional[str] = None,
+            data: Optional[Any] = None,
+            **kwargs,
     ):
         content = {"code": code, "msg": msg, "data": data}
         content.update(kwargs)
@@ -121,14 +122,14 @@ class Fail(JSONResponse):
 
 class SuccessExtra(JSONResponse):
     def __init__(
-        self,
-        code: int = 200,
-        msg: Optional[str] = None,
-        data: Optional[Any] = None,
-        total: int = 0,
-        page: int = 1,
-        page_size: int = 20,
-        **kwargs,
+            self,
+            code: int = 200,
+            msg: Optional[str] = "OK",
+            data: Optional[Any] = None,
+            total: int = 0,
+            page: int = 1,
+            page_size: int = 20,
+            **kwargs,
     ):
         content = {
             "code": code,
@@ -156,7 +157,10 @@ def model_to_dict(obj, *ignore: str):
     elif isinstance(obj, bytes):
         return str(obj, encoding='utf-8')
     elif isinstance(obj.__class__, DeclarativeMeta):
-        return model_to_dict({i.name: getattr(obj, i.name) for i in obj.__table__.columns})
+        data = model_to_dict({i.name: getattr(obj, i.name).strftime("%Y-%m-%d %H:%M:%S") if isinstance(
+            getattr(obj, i.name), datetime_type) else getattr(obj, i.name)
+                              for i in obj.__table__.columns if i.name not in ignore})
+        return data
     elif isinstance(obj, dict):
         for k in obj:
             try:
