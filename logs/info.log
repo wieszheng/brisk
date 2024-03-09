@@ -8722,3 +8722,5 @@ Exception: 登录状态已过期, 请重新登录
 2024-03-09 17:22:02.831 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:61151 - "GET /docs HTTP/1.1" 200
 2024-03-09 17:22:02.924 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:61152 - "GET /openapi.json HTTP/1.1" 200
 2024-03-09 17:22:03.137 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:61151 - "GET /static/favicon.png HTTP/1.1" 200
+2024-03-09 17:41:42.438 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 17:41:42.439 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.

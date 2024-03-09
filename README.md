@@ -1,4 +1,4 @@
-<p align="center"><img width="200" src="http://154.8.177.173:9002/will/pic9.png" alt="logo"></p>
+<p align="center"><img width="200" src="https://gitee.com/wieszheng/brisk/raw/master/static/favicon.png" alt="logo"></p>
 
 
 <p align="center">
