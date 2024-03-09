@@ -8467,3 +8467,13 @@ Exception: 登录状态已过期, 请重新登录
 2024-03-09 13:30:54.484 | SUCCESS  | main:init_database:26 - database and tables created success.        ✔
 2024-03-09 13:30:54.485 | INFO     | uvicorn.lifespan.on:startup:60 - Application startup complete.
 2024-03-09 13:30:54.485 | INFO     | uvicorn.lifespan.on:startup:60 - Application startup complete.
+2024-03-09 13:41:49.751 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 13:41:49.752 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 13:48:24.586 | INFO     | uvicorn.server:shutdown:265 - Shutting down
+2024-03-09 13:48:24.589 | INFO     | uvicorn.server:shutdown:265 - Shutting down
+2024-03-09 13:48:24.694 | INFO     | uvicorn.lifespan.on:shutdown:65 - Waiting for application shutdown.
+2024-03-09 13:48:24.694 | INFO     | uvicorn.lifespan.on:shutdown:65 - Waiting for application shutdown.
+2024-03-09 13:48:24.695 | INFO     | uvicorn.lifespan.on:shutdown:76 - Application shutdown complete.
+2024-03-09 13:48:24.696 | INFO     | uvicorn.lifespan.on:shutdown:76 - Application shutdown complete.
+2024-03-09 13:48:24.696 | INFO     | uvicorn.server:serve:87 - Finished server process [7332]
+2024-03-09 13:48:24.697 | INFO     | uvicorn.server:serve:87 - Finished server process [7332]
