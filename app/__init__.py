@@ -36,7 +36,7 @@ async def custom_swagger_ui_html():
         title=Settings.APP_NAME + " - Swagger UI",
         swagger_js_url="/static/swagger-ui-bundle.js",
         swagger_css_url="/static/swagger-ui.css",
-        swagger_favicon_url="https://fastapi.tiangolo.com/img/favicon.png"
+        swagger_favicon_url="/static/favicon.png"
     )
 
 
@@ -53,17 +53,6 @@ brisk.add_middleware(
     allow_headers=["*"],  # 允许的 HTTP 头信息，可以是字符串、字符串列表，或通配符 "*"
     expose_headers=["*"],  # 允许前端访问的额外响应头，可以是字符串、字符串列表
 )
-
-# 配置日志格式
-INFO_FORMAT = "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> " \
-              "| <level>{level: <8}</level> | <cyan>文件: {extra[filename]}</cyan> " \
-              "| 模块: <cyan>{extra[business]}</cyan> | 方法: <cyan>{extra[func]}</cyan> " \
-              "| <cyan>行数: {extra[line]}</cyan> | - <level>{message}</level>"
-
-ERROR_FORMAT = "<red>{time:YYYY-MM-DD HH:mm:ss.SSS}</red> " \
-               "| <level>{level: <8}</level> | <cyan>文件: {extra[filename]}</cyan> " \
-               "| 模块: <cyan>{extra[business]}</cyan> | 方法: <cyan>{extra[func]}</cyan> " \
-               "| <cyan>行数: {extra[line]}</cyan> | - <level>{message}</level>"
 
 
 class InterceptHandler(logging.Handler):

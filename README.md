@@ -1,15 +1,23 @@
-![png](https://img.shields.io/badge/Python-3.8+-blue)
-![png](https://img.shields.io/badge/FastApi-0.110.0-red)
-![png](https://img.shields.io/badge/SQLAlchemy-2.0.27-green)
-![png](https://img.shields.io/badge/pydantic-2.6.3-yellow)
+<p align="center"><img width="200" src="http://154.8.177.173:9002/will/pic9.png" alt="logo"></p>
 
+
+<p align="center">
+  <a href="https://github.com/wieszheng/wonder" class="link github-link" target="_blank"><img style="max-width: 100px;" alt="GitHub Repo stars" src="https://img.shields.io/github/stars/wieszheng/wonder?style=social"></a>
+  <a href="https://gitee.com/wieszheng/brisk" class="link gitee-link" target="_blank"><img style="max-width: 100px;" alt="gitee Repo stars" src="https://gitee.com/wieszheng/brisk/badge/star.svg"></a>
+  <img alt="csharp" src="https://img.shields.io/badge/Python-3.8+-blue">
+  <img alt="csharp" src="https://img.shields.io/badge/FastApi-0.110.0-red">
+  <img alt="csharp" src="https://img.shields.io/badge/SQLAlchemy-2.0.27-green">
+  <img alt="license" src="https://img.shields.io/badge/pydantic-2.6.3-yellow">
+  <img alt="license" src="https://img.shields.io/badge/license-MIT-purple">
+  <img alt="version" src="https://img.shields.io/badge/version-1.0.0-brightgreen">
+</p>
 
 > 由于微服务个人来做能力实在有限，缓慢开发功能...
 
 #### 🎉 技术栈
 
-- [x] 🎨 FastApi
-- [x] 🎶 SQLAlchemy
+- ✅ 🎨 FastApi
+- ✅ ⚡️ SQLAlchemy
 
 #### ⚽ 前端地址
 

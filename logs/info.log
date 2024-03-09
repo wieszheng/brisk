@@ -8514,3 +8514,211 @@ Exception: 登录状态已过期, 请重新登录
 2024-03-09 15:11:46.837 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
 2024-03-09 15:41:45.847 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
 2024-03-09 15:41:45.848 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 16:11:44.865 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 16:11:44.866 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 16:11:44.954 | INFO     | uvicorn.server:shutdown:265 - Shutting down
+2024-03-09 16:11:44.956 | INFO     | uvicorn.server:shutdown:265 - Shutting down
+2024-03-09 16:11:45.063 | INFO     | uvicorn.lifespan.on:shutdown:65 - Waiting for application shutdown.
+2024-03-09 16:11:45.063 | INFO     | uvicorn.lifespan.on:shutdown:65 - Waiting for application shutdown.
+2024-03-09 16:11:45.065 | INFO     | uvicorn.lifespan.on:shutdown:76 - Application shutdown complete.
+2024-03-09 16:11:45.065 | INFO     | uvicorn.lifespan.on:shutdown:76 - Application shutdown complete.
+2024-03-09 16:11:45.066 | INFO     | uvicorn.server:serve:87 - Finished server process [14272]
+2024-03-09 16:11:45.067 | INFO     | uvicorn.server:serve:87 - Finished server process [14272]
+2024-03-09 16:11:46.539 | DEBUG    | app:init_logging:130 - 日志系统已加载
+2024-03-09 16:11:46.539 | SUCCESS  | main:<module>:17 - brisk is running at Brisk
+2024-03-09 16:11:46.540 | SUCCESS  | main:<module>:18 - 
+                                  \`-,                             
+                                  |   `\                           
+                                  |     \                          
+                               __/.- - -.\,__                      
+                          _.-'`              `'"'--..,__           
+                      .-'`                              `'--.,_    
+                   .'`   _                         _ ___       `)  
+                 .'   .'` `'-.                    (_`  _`)  _.-'   
+               .'    '--.     '.                 .-.`"`@ .-'""-,   
+      .------~'     ,.---'      '-._      _.'   /   `'--':::.-'   
+    /`        '   /`  _,..-----.,__ `''''`/    ;__,..--''--'`      
+    `'--.,__ '    |-'`             `'---'|     |                   
+            `\    \                       \   /                    
+             |     |                       '-'                     
+              \    |                                               
+               `\  |                                               
+                 \/  
+
+        
+2024-03-09 16:11:46.541 | INFO     | uvicorn.server:serve:77 - Started server process [12532]
+2024-03-09 16:11:46.542 | INFO     | uvicorn.server:serve:77 - Started server process [12532]
+2024-03-09 16:11:46.543 | INFO     | uvicorn.lifespan.on:startup:46 - Waiting for application startup.
+2024-03-09 16:11:46.543 | INFO     | uvicorn.lifespan.on:startup:46 - Waiting for application startup.
+2024-03-09 16:11:46.544 | SUCCESS  | main:init_database:26 - database and tables created success.        ✔
+2024-03-09 16:11:46.545 | INFO     | uvicorn.lifespan.on:startup:60 - Application startup complete.
+2024-03-09 16:11:46.546 | INFO     | uvicorn.lifespan.on:startup:60 - Application startup complete.
+2024-03-09 16:32:22.078 | INFO     | uvicorn.server:shutdown:265 - Shutting down
+2024-03-09 16:32:22.079 | INFO     | uvicorn.server:shutdown:265 - Shutting down
+2024-03-09 16:32:22.186 | INFO     | uvicorn.lifespan.on:shutdown:65 - Waiting for application shutdown.
+2024-03-09 16:32:22.188 | INFO     | uvicorn.lifespan.on:shutdown:65 - Waiting for application shutdown.
+2024-03-09 16:32:22.189 | INFO     | uvicorn.lifespan.on:shutdown:76 - Application shutdown complete.
+2024-03-09 16:32:22.190 | INFO     | uvicorn.lifespan.on:shutdown:76 - Application shutdown complete.
+2024-03-09 16:32:22.191 | INFO     | uvicorn.server:serve:87 - Finished server process [12532]
+2024-03-09 16:32:22.192 | INFO     | uvicorn.server:serve:87 - Finished server process [12532]
+2024-03-09 16:32:24.113 | DEBUG    | app:init_logging:130 - 日志系统已加载
+2024-03-09 16:32:24.114 | SUCCESS  | main:<module>:17 - brisk is running at Brisk
+2024-03-09 16:32:24.114 | SUCCESS  | main:<module>:18 - 
+                                  \`-,                             
+                                  |   `\                           
+                                  |     \                          
+                               __/.- - -.\,__                      
+                          _.-'`              `'"'--..,__           
+                      .-'`                              `'--.,_    
+                   .'`   _                         _ ___       `)  
+                 .'   .'` `'-.                    (_`  _`)  _.-'   
+               .'    '--.     '.                 .-.`"`@ .-'""-,   
+      .------~'     ,.---'      '-._      _.'   /   `'--':::.-'   
+    /`        '   /`  _,..-----.,__ `''''`/    ;__,..--''--'`      
+    `'--.,__ '    |-'`             `'---'|     |                   
+            `\    \                       \   /                    
+             |     |                       '-'                     
+              \    |                                               
+               `\  |                                               
+                 \/  
+
+        
+2024-03-09 16:32:24.115 | INFO     | uvicorn.server:serve:77 - Started server process [3144]
+2024-03-09 16:32:24.115 | INFO     | uvicorn.server:serve:77 - Started server process [3144]
+2024-03-09 16:32:24.116 | INFO     | uvicorn.lifespan.on:startup:46 - Waiting for application startup.
+2024-03-09 16:32:24.116 | INFO     | uvicorn.lifespan.on:startup:46 - Waiting for application startup.
+2024-03-09 16:32:24.116 | SUCCESS  | main:init_database:26 - database and tables created success.        ✔
+2024-03-09 16:32:24.117 | INFO     | uvicorn.lifespan.on:startup:60 - Application startup complete.
+2024-03-09 16:32:24.118 | INFO     | uvicorn.lifespan.on:startup:60 - Application startup complete.
+2024-03-09 16:41:43.889 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 16:41:43.892 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 16:41:54.987 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:60607 - "GET /docs HTTP/1.1" 200
+2024-03-09 16:41:55.077 | INFO     | uvicorn.server:shutdown:265 - Shutting down
+2024-03-09 16:41:55.078 | INFO     | uvicorn.server:shutdown:265 - Shutting down
+2024-03-09 16:41:55.278 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:60607 - "GET /static/swagger-ui.css HTTP/1.1" 304
+2024-03-09 16:41:55.279 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:60608 - "GET /static/swagger-ui-bundle.js HTTP/1.1" 304
+2024-03-09 16:41:55.280 | INFO     | uvicorn.server:_wait_tasks_to_complete:303 - Waiting for connections to close. (CTRL+C to force quit)
+2024-03-09 16:41:55.283 | INFO     | uvicorn.server:_wait_tasks_to_complete:303 - Waiting for connections to close. (CTRL+C to force quit)
+2024-03-09 16:41:55.389 | INFO     | uvicorn.lifespan.on:shutdown:65 - Waiting for application shutdown.
+2024-03-09 16:41:55.389 | INFO     | uvicorn.lifespan.on:shutdown:65 - Waiting for application shutdown.
+2024-03-09 16:41:55.390 | INFO     | uvicorn.lifespan.on:shutdown:76 - Application shutdown complete.
+2024-03-09 16:41:55.390 | INFO     | uvicorn.lifespan.on:shutdown:76 - Application shutdown complete.
+2024-03-09 16:41:55.391 | INFO     | uvicorn.server:serve:87 - Finished server process [3144]
+2024-03-09 16:41:55.392 | INFO     | uvicorn.server:serve:87 - Finished server process [3144]
+2024-03-09 16:41:56.869 | DEBUG    | app:init_logging:130 - 日志系统已加载
+2024-03-09 16:41:56.869 | SUCCESS  | main:<module>:17 - brisk is running at Brisk
+2024-03-09 16:41:56.870 | SUCCESS  | main:<module>:18 - 
+                                  \`-,                             
+                                  |   `\                           
+                                  |     \                          
+                               __/.- - -.\,__                      
+                          _.-'`              `'"'--..,__           
+                      .-'`                              `'--.,_    
+                   .'`   _                         _ ___       `)  
+                 .'   .'` `'-.                    (_`  _`)  _.-'   
+               .'    '--.     '.                 .-.`"`@ .-'""-,   
+      .------~'     ,.---'      '-._      _.'   /   `'--':::.-'   
+    /`        '   /`  _,..-----.,__ `''''`/    ;__,..--''--'`      
+    `'--.,__ '    |-'`             `'---'|     |                   
+            `\    \                       \   /                    
+             |     |                       '-'                     
+              \    |                                               
+               `\  |                                               
+                 \/  
+
+        
+2024-03-09 16:41:56.870 | INFO     | uvicorn.server:serve:77 - Started server process [10260]
+2024-03-09 16:41:56.871 | INFO     | uvicorn.server:serve:77 - Started server process [10260]
+2024-03-09 16:41:56.871 | INFO     | uvicorn.lifespan.on:startup:46 - Waiting for application startup.
+2024-03-09 16:41:56.872 | INFO     | uvicorn.lifespan.on:startup:46 - Waiting for application startup.
+2024-03-09 16:41:56.872 | SUCCESS  | main:init_database:26 - database and tables created success.        ✔
+2024-03-09 16:41:56.873 | INFO     | uvicorn.lifespan.on:startup:60 - Application startup complete.
+2024-03-09 16:41:56.874 | INFO     | uvicorn.lifespan.on:startup:60 - Application startup complete.
+2024-03-09 16:41:56.880 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:60609 - "GET /openapi.json HTTP/1.1" 200
+2024-03-09 17:11:43.419 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 17:11:43.420 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-09 17:18:49.362 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:61086 - "GET /docs HTTP/1.1" 200
+2024-03-09 17:18:49.431 | INFO     | uvicorn.server:shutdown:265 - Shutting down
+2024-03-09 17:18:49.432 | INFO     | uvicorn.server:shutdown:265 - Shutting down
+2024-03-09 17:18:49.541 | INFO     | uvicorn.lifespan.on:shutdown:65 - Waiting for application shutdown.
+2024-03-09 17:18:49.541 | INFO     | uvicorn.lifespan.on:shutdown:65 - Waiting for application shutdown.
+2024-03-09 17:18:49.542 | INFO     | uvicorn.lifespan.on:shutdown:76 - Application shutdown complete.
+2024-03-09 17:18:49.542 | INFO     | uvicorn.lifespan.on:shutdown:76 - Application shutdown complete.
+2024-03-09 17:18:49.542 | INFO     | uvicorn.server:serve:87 - Finished server process [10260]
+2024-03-09 17:18:49.544 | INFO     | uvicorn.server:serve:87 - Finished server process [10260]
+2024-03-09 17:18:51.046 | DEBUG    | app:init_logging:119 - 日志系统已加载
+2024-03-09 17:18:51.047 | SUCCESS  | main:<module>:17 - brisk is running at Brisk
+2024-03-09 17:18:51.047 | SUCCESS  | main:<module>:18 - 
+                                  \`-,                             
+                                  |   `\                           
+                                  |     \                          
+                               __/.- - -.\,__                      
+                          _.-'`              `'"'--..,__           
+                      .-'`                              `'--.,_    
+                   .'`   _                         _ ___       `)  
+                 .'   .'` `'-.                    (_`  _`)  _.-'   
+               .'    '--.     '.                 .-.`"`@ .-'""-,   
+      .------~'     ,.---'      '-._      _.'   /   `'--':::.-'   
+    /`        '   /`  _,..-----.,__ `''''`/    ;__,..--''--'`      
+    `'--.,__ '    |-'`             `'---'|     |                   
+            `\    \                       \   /                    
+             |     |                       '-'                     
+              \    |                                               
+               `\  |                                               
+                 \/  
+
+        
+2024-03-09 17:18:51.048 | INFO     | uvicorn.server:serve:77 - Started server process [6056]
+2024-03-09 17:18:51.048 | INFO     | uvicorn.server:serve:77 - Started server process [6056]
+2024-03-09 17:18:51.049 | INFO     | uvicorn.lifespan.on:startup:46 - Waiting for application startup.
+2024-03-09 17:18:51.049 | INFO     | uvicorn.lifespan.on:startup:46 - Waiting for application startup.
+2024-03-09 17:18:51.050 | SUCCESS  | main:init_database:26 - database and tables created success.        ✔
+2024-03-09 17:18:51.051 | INFO     | uvicorn.lifespan.on:startup:60 - Application startup complete.
+2024-03-09 17:18:51.052 | INFO     | uvicorn.lifespan.on:startup:60 - Application startup complete.
+2024-03-09 17:18:51.058 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:61087 - "GET /openapi.json HTTP/1.1" 200
+2024-03-09 17:18:53.813 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:61087 - "GET /docs HTTP/1.1" 200
+2024-03-09 17:18:53.921 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:61087 - "GET /openapi.json HTTP/1.1" 200
+2024-03-09 17:18:56.027 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:61087 - "GET /docs HTTP/1.1" 200
+2024-03-09 17:18:56.106 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:61087 - "GET /openapi.json HTTP/1.1" 200
+2024-03-09 17:22:01.171 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:61147 - "GET /docs HTTP/1.1" 200
+2024-03-09 17:22:01.264 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:61147 - "GET /openapi.json HTTP/1.1" 200
+2024-03-09 17:22:01.266 | INFO     | uvicorn.server:shutdown:265 - Shutting down
+2024-03-09 17:22:01.267 | INFO     | uvicorn.server:shutdown:265 - Shutting down
+2024-03-09 17:22:01.381 | INFO     | uvicorn.lifespan.on:shutdown:65 - Waiting for application shutdown.
+2024-03-09 17:22:01.382 | INFO     | uvicorn.lifespan.on:shutdown:65 - Waiting for application shutdown.
+2024-03-09 17:22:01.384 | INFO     | uvicorn.lifespan.on:shutdown:76 - Application shutdown complete.
+2024-03-09 17:22:01.385 | INFO     | uvicorn.lifespan.on:shutdown:76 - Application shutdown complete.
+2024-03-09 17:22:01.386 | INFO     | uvicorn.server:serve:87 - Finished server process [6056]
+2024-03-09 17:22:01.387 | INFO     | uvicorn.server:serve:87 - Finished server process [6056]
+2024-03-09 17:22:02.810 | DEBUG    | app:init_logging:119 - 日志系统已加载
+2024-03-09 17:22:02.810 | SUCCESS  | main:<module>:17 - brisk is running at Brisk
+2024-03-09 17:22:02.811 | SUCCESS  | main:<module>:18 - 
+                                  \`-,                             
+                                  |   `\                           
+                                  |     \                          
+                               __/.- - -.\,__                      
+                          _.-'`              `'"'--..,__           
+                      .-'`                              `'--.,_    
+                   .'`   _                         _ ___       `)  
+                 .'   .'` `'-.                    (_`  _`)  _.-'   
+               .'    '--.     '.                 .-.`"`@ .-'""-,   
+      .------~'     ,.---'      '-._      _.'   /   `'--':::.-'   
+    /`        '   /`  _,..-----.,__ `''''`/    ;__,..--''--'`      
+    `'--.,__ '    |-'`             `'---'|     |                   
+            `\    \                       \   /                    
+             |     |                       '-'                     
+              \    |                                               
+               `\  |                                               
+                 \/  
+
+        
+2024-03-09 17:22:02.811 | INFO     | uvicorn.server:serve:77 - Started server process [1160]
+2024-03-09 17:22:02.811 | INFO     | uvicorn.server:serve:77 - Started server process [1160]
+2024-03-09 17:22:02.813 | INFO     | uvicorn.lifespan.on:startup:46 - Waiting for application startup.
+2024-03-09 17:22:02.813 | INFO     | uvicorn.lifespan.on:startup:46 - Waiting for application startup.
+2024-03-09 17:22:02.813 | SUCCESS  | main:init_database:26 - database and tables created success.        ✔
+2024-03-09 17:22:02.814 | INFO     | uvicorn.lifespan.on:startup:60 - Application startup complete.
+2024-03-09 17:22:02.815 | INFO     | uvicorn.lifespan.on:startup:60 - Application startup complete.
+2024-03-09 17:22:02.831 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:61151 - "GET /docs HTTP/1.1" 200
+2024-03-09 17:22:02.924 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:61152 - "GET /openapi.json HTTP/1.1" 200
+2024-03-09 17:22:03.137 | INFO     | uvicorn.protocols.http.httptools_impl:send:489 - 127.0.0.1:61151 - "GET /static/favicon.png HTTP/1.1" 200
