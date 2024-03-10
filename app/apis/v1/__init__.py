@@ -9,11 +9,13 @@
 """
 from fastapi import APIRouter
 from app.apis.v1.auth import user
+from app.apis.v1.config import address
 
 v1 = APIRouter(prefix="/v1")
 # 定义路由列表
 RegisterRouterList = [
     user,
+    address,
 ]
 
 for item in RegisterRouterList:

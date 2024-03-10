@@ -65,25 +65,25 @@ class ApiResponse(JSONResponse):
     api_code = 0
     # 默认Node.如果是必选的，去掉默认值即可
     data: Optional[Dict[str, Any]] = None  # 结果可以是{} 或 []
-    msg = '成功'
+    msg = 'ok'
 
-    def __init__(self, http_status_code=None, api_code=None, data=None, msg=None, **options):
+    def __init__(self, http_status_code=None, api_code=None, data=None, msg=None, **kwargs):
         self.msg = msg or self.msg
         self.api_code = api_code or self.api_code
         self.http_status_code = http_status_code or self.http_status_code
         self.data = data or self.data
 
         # 返回内容体
-        body = dict(
+        content = dict(
             msg=self.msg,
             code=self.api_code,
             data=self.data,
-
         )
-        super(ApiResponse, self).__init__(status_code=self.http_status_code, content=body, **options)
+        content.update(kwargs)
+        super(ApiResponse, self).__init__(status_code=self.http_status_code, content=content)
 
     # 这个render会自动调用，如果这里需要特殊的处理的话，可以重写这个地方
-    def render(self, content: typing.Any) -> bytes:
+    def render(self, content: Any) -> bytes:
         return json.dumps(
             content,
             ensure_ascii=False,
@@ -94,17 +94,23 @@ class ApiResponse(JSONResponse):
         ).encode("utf-8")
 
 
-class Success(JSONResponse):
-    def __init__(
-            self,
-            code: int = 200,
-            msg: Optional[str] = "OK",
-            data: Optional[Any] = None,
-            **kwargs,
-    ):
-        content = {"code": code, "msg": msg, "data": data}
-        content.update(kwargs)
-        super().__init__(content=content, status_code=code)
+class Success(ApiResponse):
+    code = 0
+    data = None  # 结果可以是{} 或 []
+    msg = 'ok'
+
+
+# class Success(JSONResponse):
+#     def __init__(
+#             self,
+#             code: int = 200,
+#             msg: Optional[str] = "OK",
+#             data: Optional[Any] = None,
+#             **kwargs,
+#     ):
+#         content = {"code": code, "msg": msg, "data": data}
+#         content.update(kwargs)
+#         super().__init__(content=content, status_code=code)
 
 
 class Fail(JSONResponse):

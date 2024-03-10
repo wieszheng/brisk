@@ -16,7 +16,7 @@ from config import Settings
 async_database_url = f"mysql+aiomysql://{Settings.MYSQL_USER}:{Settings.MYSQL_PASSWORD}" \
                      f"@{Settings.MYSQL_HOST}:{Settings.MYSQL_PORT}/{Settings.MYSQL_DATABASE}?charset=utf8mb4"
 # 创建异步引擎
-async_engine = create_async_engine(async_database_url, echo=False, pool_size=50, pool_recycle=1500)
+async_engine = create_async_engine(async_database_url, echo=True, pool_size=50, pool_recycle=1500)
 
 # 使用Declarative Base定义模型
 Base = declarative_base()
