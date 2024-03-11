@@ -29,6 +29,7 @@ class AppConfigSettings(BaseSettings):
     APP_ENV: str
 
     # 数据库配置
+    MYSQL_DRIVER: str
     MYSQL_HOST: str
     MYSQL_PORT: int
     MYSQL_USER: str

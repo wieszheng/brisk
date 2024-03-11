@@ -21,6 +21,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import DeclarativeBase
 
 from app.models.base import BBaseModel
+from app.utils.log import Log
 
 
 async def init_create_table():
@@ -48,8 +49,7 @@ def connect(transaction: Transaction = False):
                 async with async_session() as ss:
                     return await transaction(cls, *args, session=ss, **kwargs)
             except Exception as e:
-                logger.error(f"操作{cls.model.__name__}失败, args：{[*args]}, kwargs：{kwargs}, "
-                             f"{transaction.__name__}方法报错: {e}")
+                cls.__log__.error(f"操作Model: {cls.__model__.__name__}失败: {e}")
                 raise f"操作数据库失败: {e}"
 
         return wrap
@@ -71,9 +71,7 @@ def connect(transaction: Transaction = False):
                             return await func(cls, *args, session=ss, **kwargs)
                     return await func(cls, *args, session=ss, **kwargs)
             except Exception as e:
-                logger.error(f"操作{cls.__name__}失败, args：{[*args]}, kwargs：{kwargs}, "
-                             f"{transaction}方法报错: {str(e)}")
-
+                cls.__log__.error(f"操作Model: {cls.__model__.__name__}失败: {e}")
                 raise f"操作数据失败: {str(e)}"
 
         return wrapper
@@ -82,6 +80,7 @@ def connect(transaction: Transaction = False):
 
 
 class BaseCrud:
+    __log__ = Log("BaseCrud")
     __model__: Type[BBaseModel] = None
     is_deleted_column: str = "is_deleted",
     deleted_at_column: str = "deleted_at",
