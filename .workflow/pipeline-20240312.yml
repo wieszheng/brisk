@@ -8,20 +8,6 @@ triggers:
       prefix:
         - ''
 stages:
-  - name: stage-72ba045f
-    displayName: 组件检测
-    strategy: naturally
-    trigger: auto
-    executor:
-      - wieszheng
-    steps:
-      - step: sc@opensca
-        name: open_sca
-        displayName: OpenSCA 开源组件检测
-        detectPath: ./**
-        notify: []
-        strategy:
-          retry: '0'
   - name: stage-060cb68d
     displayName: 构建
     strategy: naturally
@@ -95,11 +81,8 @@ stages:
         script:
           - '# 功能：部署脚本会在部署主机组的每台机器上执行'
           - '# 使用场景：先将制品包解压缩到指定目录中，再执行启动脚本deploy.sh，脚本示例地址：https://gitee.com/gitee-go/spring-boot-maven-deploy-case/blob/master/deploy.sh'
-          - '# mkdir -p /home/admin/app'
-          - '# tar zxvf ~/gitee_go/deploy/output.tar.gz -C /home/admin/app'
-          - '# sh /home/admin/app/deploy.sh restart'
-          - '# 如果你是php之类的无需制品包的制品方式，可以使用 git clone 或者 git pull 将源代码更新到服务器，再执行其他命令'
-          - '# git clone ***@***.git'
+          - mkdir -p /home/admin/app
+          - tar zxvf ~/gitee_go/deploy/output.tar.gz -C /home/admin/app
           - echo 'Hello Gitee Go!'
         notify: []
         strategy:
