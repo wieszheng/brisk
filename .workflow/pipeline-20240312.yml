@@ -18,11 +18,48 @@ stages:
       - step: sc@opensca
         name: open_sca
         displayName: OpenSCA 开源组件检测
-        detectPath: ./
+        detectPath: ./**
         notify: []
         strategy:
           retry: '0'
-  - name: stage-1c8737b4
+  - name: stage-060cb68d
+    displayName: 构建
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: build@python
+        name: build_python
+        displayName: Python 构建
+        pythonVersion: '3.8'
+        commands:
+          - python3 -m pip instal1 --upgrade pip
+          - pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+          - pip install -r requirements.txt'
+          - python --version
+        artifacts:
+          - name: BUILD_ARTIFACT
+            path:
+              - ./
+        caches: []
+        notify: []
+        strategy:
+          retry: '0'
+  - name: stage-f143d1e3
+    displayName: 上传制品
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: publish@general_artifacts
+        name: publish_general_artifacts
+        displayName: 上传制品
+        dependArtifact: BUILD_ARTIFACT
+        artifactName: output
+        notify: []
+        strategy:
+          retry: '0'
+  - name: stage-0af03cb7
     displayName: 发布
     strategy: naturally
     trigger: auto
