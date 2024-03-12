@@ -19,7 +19,7 @@ stages:
         displayName: Python 构建
         pythonVersion: '3.8'
         commands:
-          - python3 -m pip instal1 --upgrade pip
+          - python3 -m pip install --upgrade pip
           - pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
           - pip install -r requirements.txt'
           - python --version
