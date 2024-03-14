@@ -8,7 +8,7 @@
 @Function :
 """
 import uuid
-from sqlalchemy import INT, Column, SMALLINT, func, String, DateTime, BIGINT
+from sqlalchemy import Column, func, String, DateTime, BIGINT
 from app.models import Base
 
 
@@ -34,4 +34,3 @@ class BBaseModel(Base,
                  TimestampMixin, PrimaryIdMixin,
                  OperateMixin, TombstoneMixin):
     __abstract__ = True
-
