@@ -21,6 +21,9 @@ stages:
         commands:
           - python3 -m pip install --upgrade pip
           - pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+          - pip3 install virtualenv
+          - python -m venv venv
+          - source venv/bin/activate
           - pip3 install -r requirements.txt
         artifacts:
           - name: BUILD_ARTIFACT
