@@ -10,7 +10,8 @@
 from datetime import datetime
 
 from pydantic import BaseModel
-from sqlalchemy import select, update, delete, func
+from sqlalchemy import select, update, delete, func, Select, asc, desc
+from sqlalchemy.exc import ArgumentError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.base import BBaseModel
@@ -49,6 +50,46 @@ class CRUDBase:
                     filters.append(column == v)
 
         return filters
+
+    def _apply_sorting(self,
+                       stmt: Select,
+                       sort_columns: Union[str, List[str]],
+                       sort_orders: Optional[Union[str, List[str]]] = None):
+
+        if sort_orders and not sort_columns:
+            raise ValueError("提供的排序顺序没有相应的排序列")
+
+        if sort_columns:
+            if not isinstance(sort_columns, list):
+                sort_columns = [sort_columns]
+
+            if sort_orders:
+                if not isinstance(sort_orders, list):
+                    sort_orders = [sort_orders] * len(sort_columns)
+                if len(sort_columns) != len(sort_orders):
+                    raise ValueError(
+                        "sort_columns和sort_order的长度必须匹配"
+                    )
+
+                for idx, order in enumerate(sort_orders):
+                    if order not in ["asc", "desc"]:
+                        raise ValueError(
+                            f"排序顺序无效: {order}，只允许使用“asc”或“desc”"
+                        )
+
+            validated_sort_orders = (
+                ["asc"] * len(sort_columns) if not sort_orders else sort_orders
+            )
+
+            for idx, column_name in enumerate(sort_columns):
+                column = getattr(self.model, column_name, None)
+                if not column:
+                    raise ArgumentError(f"无效的列名: {column_name}")
+
+                order = validated_sort_orders[idx]
+                stmt = stmt.order_by(asc(column) if order == "asc" else desc(column))
+
+        return stmt
 
     async def get_(self,
                    session: AsyncSession,
@@ -116,3 +157,24 @@ class CRUDBase:
 
         total_count = await session.scalar(count_query)
         return total_count
+
+    async def get_multi_(self,
+                         session: AsyncSession,
+                         offset: int = 0,
+                         limit: int = 100,
+                         sort_columns: Optional[Union[str, List[str]]] = None,
+                         sort_orders: Optional[Union[str, List[str]]] = None,
+                         **kwargs: Any):
+
+        if limit < 0 or offset < 0:
+            raise ValueError("限制和偏移量必须为非负")
+        filters = self._parse_filters(**kwargs)
+        stmt = select(self.model).filter(*filters)
+        if sort_columns:
+            stmt = self._apply_sorting(stmt, sort_columns, sort_orders)
+        stmt = stmt.offset(offset).limit(limit)
+        result = await session.execute(stmt)
+        data = [dict(row) for row in result.mappings()]
+        total_count = await self.count_(session=session, **kwargs)
+        return data, total_count
+
