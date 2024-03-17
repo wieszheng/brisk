@@ -10,29 +10,51 @@
 from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.crud import BaseCrud
+from app.crud import BaseCRUD
 from app.models.address import Address
-from app.schemas.address import AddressPayload, AddressOut
+from app.schemas.address import AddressPayload, AddressOut, UpdateAddressParam
 
 
-class AddressCRUD(BaseCrud):
-    __model__ = Address
+class AddressCRUD(BaseCRUD):
+    model = Address
 
-    @classmethod
-    async def register_address(cls, payload: AddressPayload,
-                               user_id: str):
-        model = Address(**payload.model_dump(),
-                        create_user=user_id)
-        return await cls.create(model=model)
+    async def create(self,
+                     session: AsyncSession,
+                     obj: AddressPayload,
+                     user_id: str):
+        return await self.create_(session, obj, user_id)
 
-    @classmethod
-    async def get_address(cls, address_id: str):
-        return await cls.get(schema_to_select=AddressOut,
-                             return_as_model=False,
-                             id=address_id)
+    async def update(self,
+                     session: AsyncSession,
+                     obj: UpdateAddressParam,
+                     user_id: str):
+        return await self.update_(session, obj, user_id)
 
-    @classmethod
-    async def get_gateway_list_all(cls, async_session: AsyncSession):
-        query = await async_session.execute(select(Address).where(and_(Address.is_deleted == 0)))
+    async def delete(self,
+                     session: AsyncSession,
+                     address_id: str):
+        return await self.delete_(session, id=address_id)
+
+    async def get_by_name(self,
+                          session: AsyncSession,
+                          address_name: str):
+        return await self.get_(session, name=address_name, is_deleted=0)
+
+    async def get_by_env(self,
+                         session: AsyncSession,
+                         address_env: str):
+        return await self.get_(session, env=address_env, is_deleted=0)
+
+    async def get_by_id(self,
+                        session: AsyncSession,
+                        address_id: str):
+        return await self.get_(session, id=address_id, is_deleted=0)
+
+    async def get_all(self,
+                      session: AsyncSession):
+        query = await session.execute(select(self.model).where(and_(Address.is_deleted == 0)))
         data = query.scalars().all()
         return data, len(data)
+
+
+address_crud = AddressCRUD()

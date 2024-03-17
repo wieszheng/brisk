@@ -18,6 +18,13 @@ class AddressPayload(BaseModel):
     gateway: str = ''
 
 
+class UpdateAddressParam(BaseModel):
+    id: str
+    env: int = None
+    name: str = ''
+    gateway: str = ''
+
+
 class AddressOut(BaseModel):
     id: int
     env: int

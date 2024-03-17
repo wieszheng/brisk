@@ -1,0 +1,8 @@
+{
+  "email": {
+    "from_addr": "1512945835@qq.com",
+    "smtp_server": "smtp.qq.com",
+    "password": "********",
+    "to": "测试报告收件人"
+  }
+}
