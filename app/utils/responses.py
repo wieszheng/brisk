@@ -116,7 +116,7 @@ class Success(ApiResponse):
 class Fail(JSONResponse):
     def __init__(
             self,
-            code: int = 400,
+            code: int = 200,
             msg: Optional[str] = None,
             data: Optional[Any] = None,
             **kwargs,

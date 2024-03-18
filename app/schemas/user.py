@@ -8,41 +8,30 @@
 @Function :
 """
 from pydantic import BaseModel, EmailStr
-from typing import List, Optional
-from datetime import datetime
+from pydantic_extra_types.phone_numbers import PhoneNumber
 
 
-class UserPayload(BaseModel):
+class UserSchemaBase(BaseModel):
+    username: str
+    password: str
+
+
+class RegisterUserParam(UserSchemaBase):
+    nickname: str = None
+    email: EmailStr
+
+
+class CustomPhoneNumber(PhoneNumber):
+    default_region_code = 'CN'
+
+
+class UserInfoSchemaBase(BaseModel):
+    id: int
+    username: str
     nickname: str
-    username: str
-    password: str
     email: EmailStr
+    phone: CustomPhoneNumber = None
 
 
-class UserBody(BaseModel):
-    username: str
-    password: str
-
-
-class User(BaseModel):
-    id: str
-    name: str
-    username: str
-    phone: str
-    role: int
-    email: EmailStr
-
-
-class UserList(BaseModel):
-    total: int
-    data: List[User]
-
-
-class UserUpdateForm(BaseModel):
-    id: str
-    name: str = None
-    username: str = None
-    phone: str = None
-    role: int = None
-    email: EmailStr = None
-    is_valid: bool = None
+class UpdateUserParam(UserInfoSchemaBase):
+    pass

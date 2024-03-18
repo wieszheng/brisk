@@ -12,58 +12,46 @@ from datetime import datetime
 
 from app.crud.auth.user import user_crud
 from app.models import async_session
-from app.schemas.user import UserPayload
-from app.utils.password import hash_psw
-from config import Settings
+from app.schemas.user import RegisterUserParam, UserSchemaBase
+from app.utils.jwt_ import jwt_encode
+from app.utils.password import verify_psw
+from app.utils.responses import model_to_dict
 
 
 class UserService:
     @staticmethod
-    async def create_user(payload: UserPayload):
+    async def create_user(obj: RegisterUserParam):
         async with async_session() as session:
-            name = await user_crud.get_by_name(session=session, name=payload.username)
-            if name:
-                raise Exception("用户名已存在,请修改")
-            email = await user_crud.get_by_email(session=session, email=payload.email)
-            if email:
-                raise Exception("邮箱已存在,请修改")
-            return await user_crud.create(session=session, obj=payload)
+            async with session.begin():
+                if not obj.password:
+                    raise ValueError("密码为空")
+                username = await user_crud.get_by_username(session, obj.username)
+                if username:
+                    raise Exception("用户名已存在,请修改")
+                nickname = await user_crud.get_by_nickname(session, obj.nickname)
+                if nickname:
+                    raise Exception("昵称已存在,请修改")
+                email = await user_crud.get_by_email(session, obj.email)
+                if email:
+                    raise Exception("邮箱已存在,请修改")
+                await user_crud.create(session, obj)
 
-    # @staticmethod
-    # async def create_user(payload: UserPayload, async_session: AsyncSession):
-    #     users = await async_session.execute(
-    #         select(User).where(or_(User.username == payload.username, User.email == payload.email)))
-    #     counts = await async_session.execute(select(func.count(User.id)))
-    #     if users.scalars().first():
-    #         raise Exception("用户名或邮箱已存在,请修改")
-    #
-    #     payload.password = hash_psw(password=payload.password)
-    #     user = User(**payload.model_dump())
-    #     user.last_login_at = datetime.now()
-    #     # 如果用户数量为0 则注册为超管
-    #     if counts.scalars().first() == 0:
-    #         user.role = Settings.ADMIN
-    #
-    #     async_session.add(user)
-    #     await async_session.commit()
-    #     await async_session.refresh(user)
-    #     return user
-    # @staticmethod
-    # async def login(payload: UserBody, async_session: AsyncSession):
-    #     query = await async_session.execute(select(User).where(
-    #         and_(User.username == payload.username,
-    #              User.deleted_at == 0)))
-    #     user = query.scalars().first()
-    #     if user is None:
-    #         raise Exception("用户名错误")
-    #     if not verify_psw(payload.password, user.password):
-    #         raise Exception("密码错误")
-    #     if not user.is_valid:
-    #         raise Exception("您的账号已被封禁, 请联系管理员")
-    #
-    #     user.last_login_at = datetime.now()
-    #     await async_session.refresh(user)
-    #     return user
+    @staticmethod
+    async def login(obj: UserSchemaBase):
+        async with async_session() as session:
+            async with session.begin():
+                current_user = await user_crud.get_by_username(session, obj.username)
+                if not current_user:
+                    raise Exception("用户不存在")
+                elif not verify_psw(obj.password, current_user.password):
+                    raise Exception("密码错误")
+                elif not current_user.is_valid:
+                    raise Exception("用户已锁定, 登陆失败")
+                current_user = model_to_dict(current_user, "password")
+                access_token = jwt_encode(current_user)
+                await user_crud.update_login_time(session, obj.username)
+                return access_token, current_user
+
     #
     # @staticmethod
     # async def query_user(user_id: int):

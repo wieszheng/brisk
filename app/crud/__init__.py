@@ -84,7 +84,7 @@ class BaseCRUD(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def __init__(self,
                  model: Type[ModelType],
                  is_deleted_column: str = "is_deleted",
-                 deleted_at_column: str = "deleted_time"):
+                 deleted_at_column: str = "deleted_at"):
         self.model = model
         self.is_deleted_column = is_deleted_column
         self.deleted_at_column = deleted_at_column

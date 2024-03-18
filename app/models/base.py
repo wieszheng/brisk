@@ -13,7 +13,7 @@ from app.models import Base
 
 
 class PrimaryUUIdMixin:
-    uuid = Column(String(36), primary_key=True, default=str(uuid.uuid4()), comment="uuid")
+    uuid = Column(String(36), default=str(uuid.uuid4()), comment="uuid")
 
 
 class TimestampMixin:
@@ -23,8 +23,8 @@ class TimestampMixin:
 
 
 class OperateMixin:
-    create_user = Column(String(36), nullable=False, comment="创建人")
-    update_user = Column(String(36), nullable=True, comment="更新人")
+    created_user = Column(String(36), nullable=True, comment="创建人")
+    updated_user = Column(String(36), nullable=True, comment="更新人")
 
 
 class TombstoneMixin:
