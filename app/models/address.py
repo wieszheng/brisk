@@ -12,10 +12,13 @@ from app.models.base import BBaseModel
 
 
 class Address(BBaseModel):
+
     __tablename__ = 'brisk_address'
+
     __table_args__ = (
         UniqueConstraint('env', 'name'),
     )
+    id = Column(INT, primary_key=True, comment="主键id")
     env = Column(INT, comment='对应环境')
     name = Column(String(32), comment="网关名称")
     gateway = Column(String(128), comment="网关地址")

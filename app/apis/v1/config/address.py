@@ -11,10 +11,9 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.apis import async_get_session, Permission
-from app.crud.config.address import AddressCRUD
 from app.schemas.address import AddressPayload
-from app.services.address import AddressService
-from app.utils.responses import Success, Fail, model_to_dict, SuccessExtra
+from app.services.config.address import AddressService
+from app.utils.responses import Success, Fail
 from config import Settings
 
 router = APIRouter(prefix="/config", tags=["环境配置"])

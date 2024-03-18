@@ -37385,3 +37385,21 @@ TypeError: exceptions must derive from BaseException
 2024-03-10 21:03:42.090 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
 2024-03-10 21:33:41.096 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
 2024-03-10 21:33:41.097 | WARNING  | uvicorn.protocols.http.httptools_impl:data_received:180 - Invalid HTTP request received.
+2024-03-18 19:18:30.672 | ERROR    | uvicorn.lifespan.on:send:134 - Traceback (most recent call last):
+  File "D:\brisk\venv\lib\site-packages\starlette\routing.py", line 743, in lifespan
+    await receive()
+  File "D:\brisk\venv\lib\site-packages\uvicorn\lifespan\on.py", line 137, in receive
+    return await self.receive_queue.get()
+  File "C:\Users\v_wieszheng\AppData\Local\Programs\Python\Python38\lib\asyncio\queues.py", line 163, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+2024-03-18 19:18:30.673 | ERROR    | uvicorn.lifespan.on:send:134 - Traceback (most recent call last):
+  File "D:\brisk\venv\lib\site-packages\starlette\routing.py", line 743, in lifespan
+    await receive()
+  File "D:\brisk\venv\lib\site-packages\uvicorn\lifespan\on.py", line 137, in receive
+    return await self.receive_queue.get()
+  File "C:\Users\v_wieszheng\AppData\Local\Programs\Python\Python38\lib\asyncio\queues.py", line 163, in get
+    await getter
+asyncio.exceptions.CancelledError
+

@@ -8,17 +8,19 @@
 @Function :
 """
 from datetime import datetime
+from functools import wraps
 
-from sqlalchemy import Select, desc, asc, select, func, update, delete
+from sqlalchemy import Select, desc, asc, select, func, update, delete, Join, inspect
 from sqlalchemy.exc import ArgumentError
 
-from app.models import async_engine, Base
-from typing import TypeVar, Optional, Any, Union, Type, List, Dict
+from app.models import async_engine, Base, async_session
+from typing import TypeVar, Optional, Any, Union, Type, List, Dict, Callable, Generic
 
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.base import BBaseModel
+from app.utils.log import Log
 
 
 async def init_create_table():
@@ -29,10 +31,63 @@ async def init_create_table():
 ModelType = TypeVar('ModelType', bound=BBaseModel)
 CreateSchemaType = TypeVar('CreateSchemaType', bound=BaseModel)
 UpdateSchemaType = TypeVar('UpdateSchemaType', bound=BaseModel)
+Transaction = TypeVar("Transaction", bool, Callable)
 
 
-class BaseCRUD:
-    model: Type[ModelType]
+def connect(transaction: Transaction = False):
+    """
+    自动创建session装饰器
+    """
+    if callable(transaction):
+        @wraps(transaction)
+        async def wrap(cls, *args, **kwargs):
+            try:
+                session: AsyncSession = kwargs.pop("session", None)
+                if session is not None:
+                    return await transaction(cls, *args, session=session, **kwargs)
+                async with async_session() as ss:
+                    return await transaction(cls, *args, session=ss, **kwargs)
+            except Exception as e:
+                cls.__log__.error(f"操作Model: {cls.__model__.__name__}失败: {e}")
+                raise f"操作数据库失败: {e}"
+
+        return wrap
+
+    def decorator(func):
+        @wraps(func)
+        async def wrapper(cls, *args, **kwargs):
+            try:
+                session: AsyncSession = kwargs.pop("session", None)
+                nb = kwargs.get("not_begin")
+                if session is not None:
+                    if transaction and not nb:
+                        async with session.begin():
+                            return await func(cls, *args, session=session, **kwargs)
+                    return await func(cls, *args[1:], session=session, **kwargs)
+                async with async_session() as ss:
+                    if transaction and not nb:
+                        async with ss.begin():
+                            return await func(cls, *args, session=ss, **kwargs)
+                    return await func(cls, *args, session=ss, **kwargs)
+            except Exception as e:
+                cls.__log__.error(f"操作Model: {cls.__model__.__name__}失败: {e}")
+                raise f"操作数据失败: {str(e)}"
+
+        return wrapper
+
+    return decorator
+
+
+class BaseCRUD(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
+    __log__ = Log("BaseCRUD")
+
+    def __init__(self,
+                 model: Type[ModelType],
+                 is_deleted_column: str = "is_deleted",
+                 deleted_at_column: str = "deleted_time"):
+        self.model = model
+        self.is_deleted_column = is_deleted_column
+        self.deleted_at_column = deleted_at_column
 
     def _parse_filters(self, **kwargs):
         filters = []
@@ -170,7 +225,7 @@ class BaseCRUD:
     async def get_multi_(self,
                          session: AsyncSession,
                          offset: int = 0,
-                         limit: int = 100,
+                         limit: int = 10,
                          sort_columns: Optional[Union[str, List[str]]] = None,
                          sort_orders: Optional[Union[str, List[str]]] = None,
                          **kwargs: Any):
@@ -186,3 +241,32 @@ class BaseCRUD:
         data = [dict(row) for row in result.mappings()]
         total_count = await self.count_(session=session, **kwargs)
         return data, total_count
+
+    async def get_joined_(self,
+                          session: AsyncSession,
+                          join_model: Type[ModelType],
+                          join_prefix: Optional[str] = None,
+                          join_on: Optional[Union[Join, None]] = None,
+                          join_type: str = "left",
+                          **kwargs: Any):
+        primary_select = list(self.model.__table__.columns)
+        # join_select = []
+        # columns = list(join_model.__table__.columns)
+        join_select = inspect(join_model).c
+
+        if join_type == "left":
+            stmt = select(*primary_select, *join_select).outerjoin(join_model, join_on)
+        elif join_type == "inner":
+            stmt = select(*primary_select, *join_select).join(join_model, join_on)
+        else:
+            raise ValueError(f"无效的连接类型：{join_type}。只有“左”或“内”有效。")
+
+        filters = self._parse_filters(**kwargs)
+        if filters:
+            stmt = stmt.filter(*filters)
+
+        result = await session.execute(stmt)
+        if result:
+            return result.scalars().first()
+
+        return None

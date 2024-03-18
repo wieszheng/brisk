@@ -27,8 +27,8 @@ def get_password_hash(password: str) -> str:
 
 def hash_psw(password: str):
     # 每次加密都进行一次salt生成, 让每次加密的hash都不同
-    add_salt = bcrypt.gensalt(rounds=Settings.BCRYPT_ROUNDS)
-    hashed = bcrypt.hashpw(password.encode(), add_salt)
+    salt_ = bcrypt.gensalt(rounds=Settings.BCRYPT_ROUNDS)
+    hashed = bcrypt.hashpw(password.encode(), salt_)
     return hashed.decode()
 
 
@@ -39,9 +39,9 @@ def verify_psw(plain_psw: str, hashed_psw: str):
     except Exception as e:
         return False
 
-# def add_salt(password: str):
-#     m = hashlib.md5()
-#     bt = f"{password}{salt}".encode("utf-8")
-#     m.update(bt)
-#     return m.hexdigest()
 
+def add_salt(password: str):
+    m = hashlib.md5()
+    bt = f"{password}{salt}".encode("utf-8")
+    m.update(bt)
+    return m.hexdigest()

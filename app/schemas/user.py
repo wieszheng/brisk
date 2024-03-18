@@ -13,7 +13,7 @@ from datetime import datetime
 
 
 class UserPayload(BaseModel):
-    name: str
+    nickname: str
     username: str
     password: str
     email: EmailStr

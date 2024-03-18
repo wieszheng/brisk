@@ -15,8 +15,7 @@ from app.models.address import Address
 from app.schemas.address import AddressPayload, AddressOut, UpdateAddressParam
 
 
-class AddressCRUD(BaseCRUD):
-    model = Address
+class AddressCRUD(BaseCRUD[Address, AddressPayload, UpdateAddressParam]):
 
     async def create(self,
                      session: AsyncSession,
@@ -57,4 +56,4 @@ class AddressCRUD(BaseCRUD):
         return data, len(data)
 
 
-address_crud = AddressCRUD()
+address_crud = AddressCRUD(Address)
