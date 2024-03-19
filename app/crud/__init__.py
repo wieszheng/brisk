@@ -186,9 +186,9 @@ class BaseCRUD(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         else:
             update_data = obj.model_dump(exclude_unset=True)
         if user_id:
-            update_data.update({'update_user': user_id})
-        if "update_time" in update_data.keys():
-            update_data["update_time"] = datetime.now()
+            update_data.update({'updated_user': user_id})
+        if "updated_at" in update_data.keys():
+            update_data["updated_at"] = datetime.now()
         filters = self._parse_filters(**kwargs)
         stmt = update(self.model).filter(*filters).values(update_data)
         result = await session.execute(stmt)
@@ -204,9 +204,11 @@ class BaseCRUD(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     async def delete_(self,
                       session: AsyncSession,
+                      user_id: str,
                       **kwargs: Any):
+
         filters = self._parse_filters(**kwargs)
-        update_stmt = update(self.model).filter(*filters).values(is_deleted=1)
+        update_stmt = update(self.model).filter(*filters).values(is_deleted=1, updated_user=user_id)
         result = await session.execute(update_stmt)
         return result.rowcount
 

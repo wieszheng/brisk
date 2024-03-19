@@ -30,8 +30,9 @@ class UserInfoSchemaBase(BaseModel):
     username: str
     nickname: str
     email: EmailStr
-    phone: CustomPhoneNumber = None
+    phone: str = None
 
 
 class UpdateUserParam(UserInfoSchemaBase):
-    pass
+    role: int = None
+    is_valid: bool = None

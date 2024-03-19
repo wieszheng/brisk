@@ -12,10 +12,11 @@ from datetime import datetime
 
 from app.crud.auth.user import user_crud
 from app.models import async_session
-from app.schemas.user import RegisterUserParam, UserSchemaBase
+from app.schemas.user import RegisterUserParam, UserSchemaBase, UpdateUserParam
 from app.utils.jwt_ import jwt_encode
 from app.utils.password import verify_psw
 from app.utils.responses import model_to_dict
+from config import Settings
 
 
 class UserService:
@@ -52,7 +53,27 @@ class UserService:
                 await user_crud.update_login_time(session, obj.username)
                 return access_token, current_user
 
-    #
+    @staticmethod
+    async def update_user(obj: UpdateUserParam, uuid: str):
+        async with async_session() as session:
+            async with session.begin():
+                current_user = await user_crud.get_by_id(session, obj.id)
+                if not current_user:
+                    raise Exception("该用户不存在，请检查")
+                rowcount = await user_crud.update_userinfo(session, obj, uuid)
+                return rowcount
+
+    @staticmethod
+    async def delete_user(user_id: int, uuid: str):
+        async with async_session() as session:
+            async with session.begin():
+                current_user = await user_crud.get_by_id(session, user_id)
+                if not current_user:
+                    raise Exception("该用户不存在，请检查")
+                if current_user.role == Settings.ADMIN:
+                    raise Exception("不能删除超级管理员")
+                rowcount = await user_crud.delete(session, user_id, uuid)
+                return rowcount
     # @staticmethod
     # async def query_user(user_id: int):
     #     async with async_session() as session:
@@ -80,20 +101,3 @@ class UserService:
     #
     #     return data.scalars().all(), len(query.scalars().all())
     #
-    # @staticmethod
-    # async def update_user(update_data: UserUpdateForm, user_id: int, async_session: AsyncSession):
-    #     query = await async_session.execute(select(User).where(and_(User.id == update_data.id)))
-    #     user = query.scalars().first()
-    #     if not user:
-    #         raise Exception("该用户不存在, 请检查")
-    #     if isinstance(update_data, dict):
-    #         update_data = update_data
-    #     else:
-    #         update_data = update_data.model_dump(exclude_unset=True)
-    #
-    #     update_data["updated_at"] = datetime.now()
-    #     update_data["update_user"] = user_id
-    #     stmt = update(User).where(and_(User.id == update_data.get("id"))).values(update_data)
-    #
-    #     await async_session.execute(stmt)
-    #     await async_session.commit()

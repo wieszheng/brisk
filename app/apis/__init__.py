@@ -7,14 +7,12 @@
 @Author   : wiesZheng
 @Function :
 """
-from datetime import datetime
 
-import jwt
 from fastapi import Header
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
-from app.crud.auth.user import UserCRUD
+from app.crud.auth.user import user_crud
 from app.exceptions.request import PermissionException, AuthException
 from app.models import async_session
 from app.utils.responses import model_to_dict
@@ -41,7 +39,8 @@ class Permission:
 
             if user_info.get("role", 0) < self.role:
                 raise PermissionException(status.HTTP_403_FORBIDDEN, FORBIDDEN)
-            user = await UserCRUD.query_user(user_info.get("id"))
+            async with async_session() as session:
+                user = await user_crud.get_by_id(session, user_info.get("id"))
             if user is None:
                 raise Exception("用户不存在")
             user_info = model_to_dict(user, "password")

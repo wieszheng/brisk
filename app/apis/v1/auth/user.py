@@ -55,14 +55,21 @@ async def page(pageNum: int, pageSize: int, keywords: str = None,
 
 @router.put("/update", summary="修改用户")
 async def update(update_data: UpdateUserParam,
-                 db: AsyncSession = Depends(async_get_session),
                  user_info=Depends(Permission(Settings.ADMIN))):
-    pass
+    try:
+        await UserService.update_user(update_data, user_info.get("uuid"))
+        return Success(msg="修改成功")
+    except Exception as e:
+        return Fail(msg=str(e))
 
 
 @router.delete("/id", summary="删除用户")
-async def page(user_id: int):
-    return {"msg": user_id}
+async def delete(user_id: int, user_info=Depends(Permission(Settings.ADMIN))):
+    try:
+        await UserService.delete_user(user_id, user_info.get("uuid"))
+        return Success(msg="删除成功")
+    except Exception as e:
+        return Fail(msg=str(e))
 
 
 @router.patch("/password/{user_id}", summary="修改用户密码")
