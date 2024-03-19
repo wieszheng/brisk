@@ -8,8 +8,6 @@
 @Author   : wies Zheng
 @Software : PyCharm
 """
-from datetime import datetime
-
 from app.crud.auth.user import user_crud
 from app.models import async_session
 from app.schemas.user import RegisterUserParam, UserSchemaBase, UpdateUserParam
@@ -74,30 +72,30 @@ class UserService:
                     raise Exception("不能删除超级管理员")
                 rowcount = await user_crud.delete(session, user_id, uuid)
                 return rowcount
-    # @staticmethod
-    # async def query_user(user_id: int):
-    #     async with async_session() as session:
-    #         query = await session.execute(select(User).where(and_(User.id == user_id)))
-    #         return query.scalars().first()
-    #
-    # @staticmethod
-    # async def list_users(async_session: AsyncSession):
-    #     query = await async_session.execute(select(User))
-    #     return query.scalars().all()
-    #
-    # @staticmethod
-    # async def page_list_users(async_session: AsyncSession,
-    #                           pageNum: int,
-    #                           pageSize: int,
-    #                           keywords: str):
-    #     if pageNum == 0 or pageSize == 0:
-    #         raise ValueError("输入数值必须大于0")
-    #
-    #     search = [User.deleted_at == 0]
-    #     if keywords:
-    #         search.append(User.name.like("%{}%".format(keywords)))
-    #     query = await async_session.execute(select(User).where(*search))
-    #     data = await async_session.execute(select(User).where(*search).offset((pageNum - 1) * pageSize).limit(pageSize))
-    #
-    #     return data.scalars().all(), len(query.scalars().all())
-    #
+
+    @staticmethod
+    async def update_user_avatar(user_id: int, avatar_url: str):
+        async with async_session() as session:
+            async with session.begin():
+                rowcount = await user_crud.update_avatar(session, user_id, avatar_url)
+                return rowcount
+
+    @staticmethod
+    async def get_users(username: str):
+        async with async_session() as session:
+            if username:
+                data, total_count = await user_crud.get_all_users(session, username=username)
+                list_user = [model_to_dict(u, "password") for u in data]
+                return list_user, total_count
+            data, total_count = await user_crud.get_all_users(session)
+            list_user = [model_to_dict(u, "password") for u in data]
+            return list_user, total_count
+
+    @staticmethod
+    async def get_page_users(pageNum: int, pageSize: int):
+        if pageNum == 0 or pageSize == 0:
+            raise ValueError("输入数值必须大于0")
+        async with async_session() as session:
+            data, total_count = await user_crud.get_page_users(session, pageNum, pageSize)
+            list_user = [model_to_dict(u, "password") for u in data]
+            return list_user, total_count

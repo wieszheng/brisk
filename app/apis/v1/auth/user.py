@@ -43,14 +43,23 @@ async def register(user_info=Depends(Permission(Settings.MEMBER))):
 
 
 @router.get("/list", summary="用户列表")
-async def page(db: AsyncSession = Depends(async_get_session)):
-    pass
+async def list_user(username: str = None):
+    try:
+        data, total = await UserService.get_users(username)
+        return Success(msg="获取成功", data=data, total=total)
+    except Exception as e:
+        return Fail(msg=str(e))
 
 
 @router.get("/page", summary="用户分页列表")
-async def page(pageNum: int, pageSize: int, keywords: str = None,
-               db: AsyncSession = Depends(async_get_session)):
-    pass
+async def page(pageNum: int = 1, pageSize: int = 10):
+    try:
+        data, total = await UserService.get_page_users(pageNum, pageSize)
+        return Success(msg="获取成功", data=data, total=total,
+                       pagesize=pageSize,
+                       pagenum=pageNum)
+    except Exception as e:
+        return Fail(msg=str(e))
 
 
 @router.put("/update", summary="修改用户")
@@ -77,6 +86,10 @@ async def page(user_id: int):
     return {"msg": user_id}
 
 
-@router.patch("/avatar/{user_id}", summary="修改用户头像")
-async def page(user_id: int):
-    return {"msg": user_id}
+@router.put("/avatar", summary="修改用户头像")
+async def update_avatar(user_id: int, avatar_url: str):
+    try:
+        await UserService.update_user_avatar(user_id, avatar_url)
+        return Success(msg="修改头像成功")
+    except Exception as e:
+        return Fail(msg=str(e))

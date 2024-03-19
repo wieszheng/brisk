@@ -9,7 +9,7 @@
 """
 from datetime import datetime
 
-from sqlalchemy import update, and_
+from sqlalchemy import update, and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud import BaseCRUD
@@ -56,6 +56,30 @@ class UserCRUD(BaseCRUD[User, RegisterUserParam, UpdateUserParam]):
 
     async def delete(self, session: AsyncSession, user_id: int, update_uuid: str):
         return await self.delete_(session, update_uuid, id=user_id)
+
+    async def update_avatar(self, session: AsyncSession, user_id: int, avatar_url: str):
+        update_data = {
+            "avatar": avatar_url
+        }
+        rowcount = await self.update_(session, update_data, id=user_id)
+        return rowcount
+
+    async def get_all_users(self, session: AsyncSession, **kwargs):
+        filters = self._parse_filters(is_deleted=0, **kwargs)
+        stmt = select(self.model).filter(*filters)
+        query = await session.execute(stmt)
+        data = query.scalars().all()
+        return data, len(data)
+
+    async def get_page_users(self, session: AsyncSession, pageNum: int, pageSize: int, **kwargs):
+        data, total_count = await self.get_multi_(session,
+                                                  offset=(pageNum - 1) * pageSize,
+                                                  limit=pageSize,
+                                                  sort_columns="username",
+                                                  sort_orders="asc",
+                                                  is_deleted=0,
+                                                  **kwargs)
+        return data, total_count
 
 
 user_crud = UserCRUD(User)
