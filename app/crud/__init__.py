@@ -95,7 +95,7 @@ class BaseCRUD(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             if "__" in k:
                 field_name, op = k.rsplit("__", 1)
                 column = getattr(self.model, field_name, None)
-                if column is not None:
+                if column is None:
                     raise ValueError(f"无效的筛选器列: {field_name}")
 
                 if op == "gt":
@@ -108,11 +108,16 @@ class BaseCRUD(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
                     filters.append(column <= v)
                 elif op == "ne":
                     filters.append(column != v)
+                elif op == "like":
+                    filters.append(column.like(f"%{v}%"))
+                elif op == "rlike":
+                    filters.append(column.like(f"{v}%"))
+                elif op == "llike":
+                    filters.append(column.like(f"%{v}"))
             else:
                 column = getattr(self.model, k, None)
                 if column is not None:
                     filters.append(column == v)
-
         return filters
 
     def _apply_sorting(self,
