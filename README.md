@@ -6,18 +6,18 @@
   <a href="https://gitee.com/wieszheng/brisk" class="link gitee-link" target="_blank"><img style="max-width: 100px;" alt="gitee Repo stars" src="https://gitee.com/wieszheng/brisk/badge/star.svg"></a>
   <img alt="csharp" src="https://img.shields.io/badge/Python-3.8+-blue">
   <img alt="csharp" src="https://img.shields.io/badge/FastApi-0.110.0-red">
-  <img alt="csharp" src="https://img.shields.io/badge/SQLAlchemy-2.0.27-green">
-  <img alt="license" src="https://img.shields.io/badge/pydantic-2.6.3-yellow">
-  <img alt="license" src="https://img.shields.io/badge/license-MIT-purple">
-  <img alt="version" src="https://img.shields.io/badge/version-1.0.0-brightgreen">
+  <img alt="csharp" src="https://img.shields.io/badge/SqlAlchemy-2.0.27-green">
+  <img alt="license" src="https://img.shields.io/badge/Pydantic-2.6.3-yellow">
+  <img alt="license" src="https://img.shields.io/badge/License-MIT-purple">
+  <img alt="version" src="https://img.shields.io/badge/Version-1.0.0-brightgreen">
 </p>
 
 > 由于微服务个人来做能力实在有限，缓慢开发功能...
 
 #### 🎉 技术栈
-
-- ✅ 🎨 FastApi
-- ✅ ⚡️ SQLAlchemy
+- ⚡️ Fully async
+- 💎 FastAPI
+- 🚀 Pydantic V2 and SQLAlchemy 2.0
 
 #### ⚽ 前端地址
 
@@ -31,7 +31,7 @@
 
 1. 安装Docker
 2. 打开终端并进入brisk目录
-3. 执行以下命令，安静等待brisk启动即可（docker-compose 一键部署。）
+3. 执行以下命令，安静等待brisk启动即可（docker-compose 一键部署）
 
 
 ```bash
@@ -67,10 +67,13 @@ $ python brisk.py
 ```
 
 
+#### 🔐 许可证
+
+[`MIT`](LICENSE)
 
 #### 📞 作者介绍
 
-    大家好，我是wies，一个乐于分享，喜欢钻研技术的测试工程师。
+    大家好，我是wies，一个乐于分享，喜欢钻研技术的测试开发工程师。
 
     一个打游戏不拿首胜不睡觉的酒0后。
 
