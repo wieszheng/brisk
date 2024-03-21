@@ -92,10 +92,14 @@ class UserService:
             return list_user, total_count
 
     @staticmethod
-    async def get_page_users(pageNum: int, pageSize: int):
+    async def get_page_users(pageNum: int, pageSize: int, username: str):
         if pageNum == 0 or pageSize == 0:
             raise ValueError("输入数值必须大于0")
         async with async_session() as session:
+            if username:
+                data, total_count = await user_crud.get_page_users(session, pageNum, pageSize, username__rlike=username)
+                list_user = [model_to_dict(u, "password") for u in data]
+                return list_user, total_count
             data, total_count = await user_crud.get_page_users(session, pageNum, pageSize)
             list_user = [model_to_dict(u, "password") for u in data]
             return list_user, total_count

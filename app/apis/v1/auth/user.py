@@ -52,9 +52,9 @@ async def list_user(username: str = None):
 
 
 @router.get("/page", summary="用户分页列表")
-async def page(pageNum: int = 1, pageSize: int = 10):
+async def page(pageNum: int = 1, pageSize: int = 10, username: str = None):
     try:
-        data, total = await UserService.get_page_users(pageNum, pageSize)
+        data, total = await UserService.get_page_users(pageNum, pageSize, username)
         return Success(msg="获取成功", data=data, total=total,
                        pagesize=pageSize,
                        pagenum=pageNum)
