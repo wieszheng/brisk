@@ -52,12 +52,12 @@ async def list_user(username: str = None):
 
 
 @router.get("/page", summary="用户分页列表")
-async def page(pageNum: int = 1, pageSize: int = 10):
+async def page(page_num: int = 1, page_size: int = 10, username: str = None):
     try:
-        data, total = await UserService.get_page_users(pageNum, pageSize)
+        data, total = await UserService.get_page_users(page_num, page_size, username)
         return Success(data=data, total=total,
-                       pagenum=pageNum,
-                       pagesize=pageSize)
+                       pagenum=page_num,
+                       pagesize=page_size)
     except Exception as e:
         return Fail(msg=str(e))
 
