@@ -8,6 +8,8 @@
 @Function :
 """
 import uuid
+from datetime import datetime
+
 from sqlalchemy import Column, func, String, DateTime, BIGINT
 from app.models import Base
 
@@ -35,6 +37,23 @@ class BBaseModel(Base,
                  TimestampMixin, PrimaryUUIdMixin,
                  OperateMixin, TombstoneMixin):
     __abstract__ = True
+
+    def to_dict(self):
+        """ 数据模型对象转字典 """
+        data_dict = dict()
+        base_dict = self.__dict__
+        for k, v in base_dict.items():
+            if str(k).startswith('_'):
+                # 前缀带下划线不要
+                continue
+            if str(k).endswith('_time') and isinstance(v, datetime):
+                # 时间字段转成时间戳
+                # k = k[:-4] + 'ts'
+                data_dict[k] = v.strftime("%Y-%m-%d %H:%M:%S") if v else None
+                continue
+
+            data_dict[k] = v
+        return data_dict
 
 
 '''
