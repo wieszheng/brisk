@@ -62,10 +62,10 @@ class ApiResponse(JSONResponse):
     # 定义返回响应码--如果不指定的话则默认都是返回200
     http_status_code = 200
     # 默认成功
-    api_code = 0
+    api_code = 200
     # 默认Node.如果是必选的，去掉默认值即可
     data: Optional[Dict[str, Any]] = None  # 结果可以是{} 或 []
-    msg = 'ok'
+    msg = 'success'
 
     def __init__(self, http_status_code=None, api_code=None, data=None, msg=None, **kwargs):
         self.msg = msg or self.msg
@@ -97,7 +97,7 @@ class ApiResponse(JSONResponse):
 class Success(ApiResponse):
     code = 0
     data = None  # 结果可以是{} 或 []
-    msg = 'ok'
+    msg = 'success'
 
 
 # class Success(JSONResponse):

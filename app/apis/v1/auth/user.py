@@ -23,7 +23,7 @@ router = APIRouter(prefix="/users", tags=["用户接口"])
 async def login(obj: UserSchemaBase):
     try:
         access_token, current_user = await UserService.login(obj)
-        return Success(msg="登录成功", data=current_user, token=access_token)
+        return Success(data=current_user, token=access_token)
     except Exception as e:
         return Fail(msg=str(e))
 
@@ -32,7 +32,7 @@ async def login(obj: UserSchemaBase):
 async def register(obj: RegisterUserParam):
     try:
         await UserService.create_user(obj)
-        return Success(msg="注册成功")
+        return Success()
     except Exception as e:
         return Fail(msg=str(e))
 
@@ -46,18 +46,18 @@ async def register(user_info=Depends(Permission(Settings.MEMBER))):
 async def list_user(username: str = None):
     try:
         data, total = await UserService.get_users(username)
-        return Success(msg="获取成功", data=data, total=total)
+        return Success(data=data, total=total)
     except Exception as e:
         return Fail(msg=str(e))
 
 
 @router.get("/page", summary="用户分页列表")
-async def page(pageNum: int = 1, pageSize: int = 10, username: str = None):
+async def page(pageNum: int = 1, pageSize: int = 10):
     try:
-        data, total = await UserService.get_page_users(pageNum, pageSize, username)
-        return Success(msg="获取成功", data=data, total=total,
-                       pagesize=pageSize,
-                       pagenum=pageNum)
+        data, total = await UserService.get_page_users(pageNum, pageSize)
+        return Success(data=data, total=total,
+                       pagenum=pageNum,
+                       pagesize=pageSize)
     except Exception as e:
         return Fail(msg=str(e))
 
@@ -67,7 +67,7 @@ async def update(update_data: UpdateUserParam,
                  user_info=Depends(Permission(Settings.ADMIN))):
     try:
         await UserService.update_user(update_data, user_info.get("uuid"))
-        return Success(msg="修改成功")
+        return Success()
     except Exception as e:
         return Fail(msg=str(e))
 
@@ -76,7 +76,7 @@ async def update(update_data: UpdateUserParam,
 async def delete(user_id: int, user_info=Depends(Permission(Settings.ADMIN))):
     try:
         await UserService.delete_user(user_id, user_info.get("uuid"))
-        return Success(msg="删除成功")
+        return Success()
     except Exception as e:
         return Fail(msg=str(e))
 
@@ -90,6 +90,6 @@ async def page(user_id: int):
 async def update_avatar(user_id: int, avatar_url: str):
     try:
         await UserService.update_user_avatar(user_id, avatar_url)
-        return Success(msg="修改头像成功")
+        return Success()
     except Exception as e:
         return Fail(msg=str(e))
