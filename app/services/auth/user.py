@@ -13,7 +13,6 @@ from app.models import async_session
 from app.schemas.user import RegisterUserParam, UserSchemaBase, UpdateUserParam
 from app.utils.jwt_ import jwt_encode
 from app.utils.password import verify_psw
-from app.utils.responses import model_to_dict
 from config import Settings
 
 
@@ -46,10 +45,10 @@ class UserService:
                     raise Exception("密码错误")
                 elif not current_user.is_valid:
                     raise Exception("用户已锁定, 登陆失败")
-                current_user = model_to_dict(current_user, "password")
-                access_token = jwt_encode(current_user)
+                new_current_user = current_user.to_dict("password")
+                access_token = jwt_encode(new_current_user)
                 await user_crud.update_login_time(session, obj.username)
-                return access_token, current_user
+                return access_token, new_current_user
 
     @staticmethod
     async def update_user(obj: UpdateUserParam, uuid: str):
@@ -85,10 +84,10 @@ class UserService:
         async with async_session() as session:
             if username:
                 data, total_count = await user_crud.get_all_users(session, username__rlike=username)
-                list_user = [model_to_dict(u, "password") for u in data]
+                list_user = [u.to_dict("password") for u in data]
                 return list_user, total_count
             data, total_count = await user_crud.get_all_users(session)
-            list_user = [model_to_dict(u, "password") for u in data]
+            list_user = [u.to_dict("password") for u in data]
             return list_user, total_count
 
     @staticmethod
@@ -99,8 +98,8 @@ class UserService:
             if username:
                 data, total_count = await user_crud.get_page_users(session, page_num, page_size,
                                                                    username__rlike=username)
-                list_user = [model_to_dict(u, "password") for u in data]
+                list_user = [u.to_dict("password") for u in data]
                 return list_user, total_count
             data, total_count = await user_crud.get_page_users(session, page_num, page_size)
-            list_user = [model_to_dict(u, "password") for u in data]
+            list_user = [u.to_dict("password") for u in data]
             return list_user, total_count

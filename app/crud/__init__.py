@@ -19,7 +19,7 @@ from typing import TypeVar, Optional, Any, Union, Type, List, Dict, Callable, Ge
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.base import BBaseModel
+from app.models.base import BaseTable
 from app.utils.log import Log
 
 
@@ -28,7 +28,7 @@ async def init_create_table():
         await conn.run_sync(Base.metadata.create_all)
 
 
-ModelType = TypeVar('ModelType', bound=BBaseModel)
+ModelType = TypeVar('ModelType', bound=BaseTable)
 CreateSchemaType = TypeVar('CreateSchemaType', bound=BaseModel)
 UpdateSchemaType = TypeVar('UpdateSchemaType', bound=BaseModel)
 Transaction = TypeVar("Transaction", bool, Callable)
@@ -245,9 +245,9 @@ class BaseCRUD(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             stmt = self._apply_sorting(stmt, sort_columns, sort_orders)
         stmt = stmt.offset(offset).limit(limit)
         result = await session.execute(stmt)
-        data = [dict(row) for row in result.mappings()]
+        # data = [dict(row) for row in result.mappings()]
         total_count = await self.count_(session=session, **kwargs)
-        return data, total_count
+        return result.scalars().all(), total_count
 
     async def get_joined_(self,
                           session: AsyncSession,

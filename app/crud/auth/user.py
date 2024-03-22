@@ -67,8 +67,8 @@ class UserCRUD(BaseCRUD[User, RegisterUserParam, UpdateUserParam]):
     async def get_all_users(self, session: AsyncSession, **kwargs):
         filters = self._parse_filters(is_deleted=0, **kwargs)
         stmt = select(self.model).filter(*filters)
-        query = await session.execute(stmt)
-        data = query.scalars().all()
+        result = await session.execute(stmt)
+        data = result.scalars().all()
         return data, len(data)
 
     async def get_page_users(self, session: AsyncSession, pageNum: int, pageSize: int, **kwargs):

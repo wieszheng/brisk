@@ -11,10 +11,10 @@
 from sqlalchemy.sql import func
 from sqlalchemy import Column, String, DateTime, INT, BIGINT, Boolean
 import uuid
-from app.models.base import BBaseModel
+from app.models.base import BaseTable
 
 
-class User(BBaseModel):
+class User(BaseTable):
 
     __tablename__ = "brisk_users"
 

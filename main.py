@@ -22,7 +22,7 @@ logger.bind(name=None).success(BANNER)
 async def init_database():
     """初始化数据库，建表"""
     try:
-        asyncio.create_task(init_create_table())
+        await asyncio.create_task(init_create_table())
         logger.bind(name=None).success("database and tables created success.        ✔")
     except Exception as e:
         logger.bind(name=None).error(f"database and tables  created failed.        ❌")

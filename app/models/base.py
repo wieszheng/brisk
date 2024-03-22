@@ -11,6 +11,7 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import Column, func, String, DateTime, BIGINT
+
 from app.models import Base
 
 
@@ -21,7 +22,7 @@ class PrimaryUUIdMixin:
 class TimestampMixin:
     created_at = Column(DateTime, nullable=False, default=func.now(), comment="创建时间")
     updated_at = Column(DateTime, nullable=False, default=func.now(), onupdate=func.now(), comment="更新时间")
-    deleted_at = Column(BIGINT, nullable=False, default=0)
+    deleted_at = Column(DateTime, nullable=True, comment="删除时间")
 
 
 class OperateMixin:
@@ -33,27 +34,28 @@ class TombstoneMixin:
     is_deleted = Column(BIGINT, nullable=False, default=0, comment="0: 未删除 1: 已删除")
 
 
-class BBaseModel(Base,
-                 TimestampMixin, PrimaryUUIdMixin,
-                 OperateMixin, TombstoneMixin):
+class BaseTable(Base,
+                TimestampMixin, PrimaryUUIdMixin,
+                OperateMixin, TombstoneMixin):
     __abstract__ = True
 
-    def to_dict(self):
-        """ 数据模型对象转字典 """
-        data_dict = dict()
-        base_dict = self.__dict__
-        for k, v in base_dict.items():
-            if str(k).startswith('_'):
-                # 前缀带下划线不要
-                continue
-            if str(k).endswith('_time') and isinstance(v, datetime):
-                # 时间字段转成时间戳
-                # k = k[:-4] + 'ts'
-                data_dict[k] = v.strftime("%Y-%m-%d %H:%M:%S") if v else None
-                continue
+    def model_to_dict(self, alias_dict: dict = None, exclude_none=True):
 
-            data_dict[k] = v
-        return data_dict
+        if exclude_none:
+            return {
+                alias_dict.get(c.name, c.name): getattr(self, c.name)
+                for c in self.__table__.columns if getattr(self, c.name) is not None
+            }
+        else:
+            return {
+                alias_dict.get(c.name, c.name): getattr(self, c.name, None)
+                for c in self.__table__.columns
+            }
+
+    def to_dict(self, *ignore: str):
+        return {i.name: getattr(self, i.name).strftime("%Y-%m-%d %H:%M:%S") if isinstance(
+            getattr(self, i.name), datetime) else getattr(self, i.name)
+                for i in self.__table__.columns if i.name not in ignore}
 
 
 '''
