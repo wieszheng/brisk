@@ -173,7 +173,7 @@ class BaseCRUD(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
                       user_id: str = None):
         object_dict = obj.model_dump()
         if user_id:
-            create_data = self.model(**object_dict, create_user=user_id)
+            create_data = self.model(**object_dict, created_user=user_id)
         else:
             create_data = self.model(**object_dict)
         session.add(create_data)

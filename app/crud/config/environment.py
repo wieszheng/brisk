@@ -20,14 +20,27 @@ class EnvironmentCRUD(BaseCRUD[Environment, EnvironmentSchemaBase, UpdateEnviron
     async def get_by_name(self, session: AsyncSession, name: str):
         return await self.get_(session, name=name, is_deleted=0)
 
-    async def get_by_id(self, session: AsyncSession, id: int):
-        return await self.get_(session, id=id, is_deleted=0)
+    async def get_by_id(self, session: AsyncSession, environment_id: int):
+        return await self.get_(session, id=environment_id, is_deleted=0)
 
-    async def create(self,
-                     session: AsyncSession,
-                     obj: EnvironmentSchemaBase,
-                     user_id: str):
-        return await self.create_(session, obj, user_id)
+    async def create(self, session: AsyncSession, obj: EnvironmentSchemaBase, create_uuid: str):
+        return await self.create_(session, obj, create_uuid)
+
+    async def update(self, session: AsyncSession, obj: UpdateEnvironmentParam, update_uuid: str):
+        return await self.update_(session, obj, update_uuid, id=obj.id)
+
+    async def delete(self, session: AsyncSession, environment_id: int, update_uuid: str):
+        return await self.delete_(session, update_uuid, id=environment_id)
+
+    async def get_page_environments(self, session: AsyncSession, page_num: int, page_size: int, **kwargs):
+        data, total_count = await self.get_multi_(session,
+                                                  offset=(page_num - 1) * page_size,
+                                                  limit=page_size,
+                                                  sort_columns="name",
+                                                  sort_orders="asc",
+                                                  is_deleted=0,
+                                                  **kwargs)
+        return data, total_count
 
 
 environment_crud = EnvironmentCRUD(Environment)

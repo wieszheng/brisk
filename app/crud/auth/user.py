@@ -71,10 +71,10 @@ class UserCRUD(BaseCRUD[User, RegisterUserParam, UpdateUserParam]):
         data = result.scalars().all()
         return data, len(data)
 
-    async def get_page_users(self, session: AsyncSession, pageNum: int, pageSize: int, **kwargs):
+    async def get_page_users(self, session: AsyncSession, page_num: int, page_size: int, **kwargs):
         data, total_count = await self.get_multi_(session,
-                                                  offset=(pageNum - 1) * pageSize,
-                                                  limit=pageSize,
+                                                  offset=(page_num - 1) * page_size,
+                                                  limit=page_size,
                                                   sort_columns="username",
                                                   sort_orders="asc",
                                                   is_deleted=0,
